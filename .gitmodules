@@ -1,0 +1,3 @@
+[submodule "tasks/HTML_CodeSniffer"]
+	path = tasks/HTML_CodeSniffer
+	url = https://github.com/squizlabs/HTML_CodeSniffer

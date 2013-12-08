@@ -1,0 +1,48 @@
+{
+  "name": "grunt-accessibility",
+  "description": "Use HTML codesniffer to grade accessibility",
+  "version": "0.1.0",
+  "homepage": "https://github.com/yargalot/grunt-accessibility",
+  "author": "Steven John Miller (http://www.stevenjohnmiller.com/)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yargalot/grunt-accessibility.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yargalot/grunt-accessibility/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/yargalot/grunt-accessibility/blob/master/LICENSE"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-nodeunit": "~0.2.2",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-watch": "~0.5.3"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.2"
+  },
+  "keywords": [
+    "gruntplugin"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-clean": "~0.5.0"
+  },
+  "license": "BSD-2-Clause"
+}
