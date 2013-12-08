@@ -13,7 +13,9 @@ module.exports = function(grunt) {
   // Please see the grunt documentation for more information regarding task
   // creation: https://github.com/gruntjs/grunt/blob/devel/docs/toc.md
 
-  grunt.registerMultiTask('init_gruntplugin_sample', 'Your task description goes here.', function() {
+  var codesniffer = require('./HTML_CodeSniffer/HTMLCS').init(grunt) ;
+
+  grunt.registerMultiTask('accessibility', 'Use HTML codesniffer to grade accessibility', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       punctuation: '.',
@@ -24,9 +26,13 @@ module.exports = function(grunt) {
     this.files.forEach(function(fileObj) {
       // The source files to be concatenated. The "nonull" option is used
       // to retain invalid files/patterns so they can be warned about.
+
+      //WCAG2A, WCAG2AA, WCAG2AAA, Section508
+
       var files = grunt.file.expand({nonull: true}, fileObj.src);
 
-      // Concat specified files.
+      console.log(files);
+
       var src = files.map(function(filepath) {
         // Warn if a source file/pattern was invalid.
         if (!grunt.file.exists(filepath)) {
@@ -35,16 +41,23 @@ module.exports = function(grunt) {
         }
         // Read file source.
         return grunt.file.read(filepath);
-      }).join(options.separator);
+      });
 
-      // Handle options.
-      src += options.punctuation;
+      //WCAG2A, WCAG2AA, WCAG2AAA, Section508
 
-      // Write the destination file.
-      grunt.file.write(fileObj.dest, src);
+      codesniffer.HTMLCS.process('WCAG2A', src, function() {
+        var msgs = codesniffer.HTMLCS.process.getMessages();
+        console.log(msgs);
+      });
 
-      // Print a success message.
-      grunt.log.writeln('File "' + fileObj.dest + '" created.');
+      // // Handle options.
+      // src += options.punctuation;
+
+      // // Write the destination file.
+      // grunt.file.write(fileObj.dest, src);
+
+      // // Print a success message.
+      // grunt.log.writeln('File "' + fileObj.dest + '" created.');
     });
   });
 
