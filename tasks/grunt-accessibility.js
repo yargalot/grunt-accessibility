@@ -34,12 +34,16 @@ module.exports = function(grunt) {
         });
 
         phantom.on('console', function (msg, trace) {
-            grunt.log.writeln(msg);
-            log += msg;
-
             if (msg === 'done') {
               done();
+              grunt.log.writeln('Report Finished'.cyan);
+              grunt.file.write('report.txt', log);
+              return;
             }
+
+            grunt.log.writeln(msg);
+            log += msg + '\r\n';
+
         });
 
 
@@ -67,7 +71,7 @@ module.exports = function(grunt) {
                 }
             });
         });
-        grunt.log.writeln('Running accessibility tests');
+        grunt.log.writeln('Running accessibility tests'.cyan);
   });
 
 };
