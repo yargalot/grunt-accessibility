@@ -10,10 +10,10 @@
 
 module.exports = function(grunt) {
 
-    var path        = require("path"),
-        phantom     = require("grunt-lib-phantomjs").init(grunt);
-
-    var asset = path.join.bind(null, __dirname, '..');
+    var path      = require('path');
+    var fs        = require('fs');
+    var phantom   = require('grunt-lib-phantomjs').init(grunt);
+    var asset     = path.join.bind(null, __dirname, '..');
 
   grunt.registerMultiTask('accessibility', 'Use HTML codesniffer to grade accessibility', function() {
         var options = this.options({
@@ -21,51 +21,53 @@ module.exports = function(grunt) {
           urls: []
         });
 
-        // the channel prefix for this async grunt task
-        var taskChannelPrefix = "" + new Date().getTime();
-
-        var sanitizeFilename = options.sanitize;
-
-        var log = '';
         var done = this.async();
 
-        phantom.on('error.onError', function (msg, trace) {
-            grunt.log.writeln('error: ' + msg);
-            phantom.halt();
-        });
+        this.files.forEach(function(file) {
 
-        phantom.on('console', function (msg, trace) {
-            if (msg === 'done') {
-              done();
-              grunt.log.writeln('Report Finished'.cyan);
-              grunt.file.write('report.txt', log);
-              return;
-            }
+          console.log(file.src);
 
-            grunt.log.writeln(msg);
-            log += msg + '\r\n';
+          grunt.util.async.forEachSeries(file.src, function(source, next) {
 
-        });
+            var log = '';
+            var filename = path.basename(source, ['.html'])
 
-        grunt.util.async.forEachSeries(this.files, function(url, next) {
-
-            phantom.spawn(url, {
-                // Additional PhantomJS options.
-                options: options,
-                // Complete the task when done.
-                done: function (err) {
-                    if (err) {
-                        // If there was an error, abort the series.
-                        done();
-                    }
-                    else {
-                        // Otherwise, process next url.
-                        next();
-                    }
+            phantom.spawn(source, {
+              // Additional PhantomJS options.
+              options: options,
+              // Complete the task when done.
+              done: function (err) {
+                if (err) {
+                  // If there was an error, abort the series.
+                  done();
                 }
+              }
             });
+
+            phantom.on('error.onError', function (msg, trace) {
+              grunt.log.writeln('error: ' + msg);
+              phantom.halt();
+            });
+
+            phantom.on('console', function (msg, trace) {
+              if (msg === 'done') {
+                grunt.log.writeln('Report Finished'.cyan);
+                grunt.file.write(filename + '_report.txt', log);
+
+                next();
+                return;
+              }
+
+              grunt.log.writeln(msg);
+              log += msg + '\r\n';
+
+            });
+
+          });
+          grunt.log.writeln('Running accessibility tests'.cyan);
+
         });
-        grunt.log.writeln('Running accessibility tests'.cyan);
+
   });
 
 };
