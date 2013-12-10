@@ -6,59 +6,68 @@
  * Licensed under the MIT license.
  */
 
-'use strict';
+// 'use strict';
 
 module.exports = function(grunt) {
 
-  // Please see the grunt documentation for more information regarding task
-  // creation: https://github.com/gruntjs/grunt/blob/devel/docs/toc.md
+    var path        = require("path"),
+        phantom     = require("grunt-lib-phantomjs").init(grunt);
 
-  var codesniffer = require('./HTML_CodeSniffer/HTMLCS').init(grunt) ;
+    var asset = path.join.bind(null, __dirname, '..');
 
   grunt.registerMultiTask('accessibility', 'Use HTML codesniffer to grade accessibility', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
+        var options = this.options({
+          urls: ['example/carsales.html']
+        });
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function(fileObj) {
-      // The source files to be concatenated. The "nonull" option is used
-      // to retain invalid files/patterns so they can be warned about.
+        // the channel prefix for this async grunt task
+        var taskChannelPrefix = "" + new Date().getTime();
 
-      //WCAG2A, WCAG2AA, WCAG2AAA, Section508
+        var sanitizeFilename = options.sanitize;
 
-      var files = grunt.file.expand({nonull: true}, fileObj.src);
+        var log = '';
+        var done = this.async();
 
-      console.log(files);
+        phantom.on('error.onError', function (msg, trace) {
+            grunt.log.writeln('error: ' + msg);
+            phantom.halt();
+        });
 
-      var src = files.map(function(filepath) {
-        // Warn if a source file/pattern was invalid.
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.error('Source file "' + filepath + '" not found.');
-          return '';
-        }
-        // Read file source.
-        return grunt.file.read(filepath);
-      });
+        phantom.on('console', function (msg, trace) {
+            grunt.log.writeln(msg);
+            log += msg;
 
-      //WCAG2A, WCAG2AA, WCAG2AAA, Section508
+            if (msg === 'done') {
+              done();
+            }
+        });
 
-      codesniffer.HTMLCS.process('WCAG2A', src, function() {
-        var msgs = codesniffer.HTMLCS.process.getMessages();
-        console.log(msgs);
-      });
 
-      // // Handle options.
-      // src += options.punctuation;
 
-      // // Write the destination file.
-      // grunt.file.write(fileObj.dest, src);
+        var urls = options.urls;
+        var sitePath = options.sitePath;
 
-      // // Print a success message.
-      // grunt.log.writeln('File "' + fileObj.dest + '" created.');
-    });
+        grunt.util.async.forEachSeries(urls, function(url, next) {
+
+            phantom.spawn(sitePath + url, {
+                // Additional PhantomJS options.
+                options: {
+                    phantomScript: asset('phantomjs/bridge.js')
+                },
+                // Complete the task when done.
+                done: function (err) {
+                    if (err) {
+                        // If there was an error, abort the series.
+                        done();
+                    }
+                    else {
+                        // Otherwise, process next url.
+                        next();
+                    }
+                }
+            });
+        });
+        grunt.log.writeln('Running accessibility tests');
   });
 
 };

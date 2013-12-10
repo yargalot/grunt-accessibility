@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     accessibility: {
       default_options: {
         files: {
-          'tmp/default_options': 'example/carsales.html',
+          'reports': 'example/carsales.html',
         },
       }
     },
@@ -57,6 +57,6 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['clean', 'accessibility', 'nodeunit']);
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint', 'test']);
+  grunt.registerTask('default', ['accessibility']);
 
 };
