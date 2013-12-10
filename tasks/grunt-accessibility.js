@@ -17,7 +17,8 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('accessibility', 'Use HTML codesniffer to grade accessibility', function() {
         var options = this.options({
-          urls: ['example/carsales.html']
+          phantomScript: asset('phantomjs/bridge.js'),
+          urls: []
         });
 
         // the channel prefix for this async grunt task
@@ -46,18 +47,11 @@ module.exports = function(grunt) {
 
         });
 
+        grunt.util.async.forEachSeries(this.files, function(url, next) {
 
-
-        var urls = options.urls;
-        var sitePath = options.sitePath;
-
-        grunt.util.async.forEachSeries(urls, function(url, next) {
-
-            phantom.spawn(sitePath + url, {
+            phantom.spawn(url, {
                 // Additional PhantomJS options.
-                options: {
-                    phantomScript: asset('phantomjs/bridge.js')
-                },
+                options: options,
                 // Complete the task when done.
                 done: function (err) {
                     if (err) {

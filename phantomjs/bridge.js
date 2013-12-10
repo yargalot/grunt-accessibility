@@ -48,7 +48,6 @@ page.open(url, function (status) {
 
     if (status == 'success') {
         sendMessage("console", 'HERP DERP');
-
     }
 
     // Include all sniff files.
@@ -77,11 +76,9 @@ page.open(url, function (status) {
     page.injectJs('../tasks/HTML_CodeSniffer/HTMLCS.js');
     page.injectJs('../tasks/HTML_CodeSniffer/PhantomJS/runner.js');
 
-    var standard = 'WCAG2A';
-
     // Now Run. Note that page.evaluate() function is sanboxed to
     // the loaded page's context. We can't pass any variable to it.
-    switch (standard) {
+    switch (options.accessibilityLevel) {
         case 'WCAG2A':
             page.evaluate(function() {HTMLCS_RUNNER.run('WCAG2A');});
         break;

@@ -30,9 +30,12 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     accessibility: {
-      default_options: {
+      options : {
+        accessibilityLevel: 'WCAG2A'
+      },
+      test : {
         files: {
-          'reports': 'example/carsales.html',
+          'reports': 'example/*.html',
         },
       }
     },
