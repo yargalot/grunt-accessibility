@@ -25,10 +25,9 @@ module.exports = function(grunt) {
 
         this.files.forEach(function(file) {
 
-          console.log(file.src);
-
           grunt.util.async.forEachSeries(file.src, function(source, next) {
 
+            console.log(source);
             var log = '';
             var filename = path.basename(source, ['.html'])
 
@@ -52,7 +51,9 @@ module.exports = function(grunt) {
             phantom.on('console', function (msg, trace) {
               if (msg === 'done') {
                 grunt.log.writeln('Report Finished'.cyan);
-                grunt.file.write(filename + '_report.txt', log);
+                grunt.file.write(file.dest + '/' + filename + '_report.txt', log);
+                log = '';
+                phantom.halt();
 
                 next();
                 return;
@@ -63,6 +64,8 @@ module.exports = function(grunt) {
 
             });
 
+          }, function(err){
+              done();
           });
           grunt.log.writeln('Running accessibility tests'.cyan);
 
