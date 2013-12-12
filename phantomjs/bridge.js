@@ -30,6 +30,7 @@ page.onConsoleMessage = function (message) {
     sendMessage("console", message);
 
     if (message === 'done') {
+        sendMessage("console", 'Closing Phantom');
         phantom.exit();
     }
 };

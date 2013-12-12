@@ -84,8 +84,17 @@ module.exports = function(grunt) {
 
         });
 
-      }, function(err){
-          done();
+        // Built-in error handlers.
+        phantom.on('fail.load', function(url) {
+          phantom.halt();
+          grunt.warn('PhantomJS unable to load URL.');
+        });
+
+        phantom.on('fail.timeout', function() {
+          phantom.halt();
+          grunt.warn('PhantomJS timed out.');
+        });
+
       });
 
   });
