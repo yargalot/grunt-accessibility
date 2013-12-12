@@ -28,6 +28,10 @@ var page = require("webpage").create();
 // Relay console logging messages.
 page.onConsoleMessage = function (message) {
     sendMessage("console", message);
+
+    if (message === 'done') {
+        phantom.exit();
+    }
 };
 
 page.onError = function (msg, trace) {
@@ -45,10 +49,6 @@ page.onLoadFinished = function(status) {
 };
 
 page.open(url, function (status) {
-
-    if (status == 'success') {
-        sendMessage("console", 'HERP DERP');
-    }
 
     // Include all sniff files.
     var fs = require('fs');
@@ -81,21 +81,17 @@ page.open(url, function (status) {
     switch (options.accessibilityLevel) {
         case 'WCAG2A':
             page.evaluate(function() {HTMLCS_RUNNER.run('WCAG2A');});
-            phantom.exit();
         break;
         case 'WCAG2AA':
             page.evaluate(function() {HTMLCS_RUNNER.run('WCAG2AA');});
-            phantom.exit();
         break;
         case 'WCAG2AAA':
             page.evaluate(function() {HTMLCS_RUNNER.run('WCAG2AAA');});
-            phantom.exit();
         break;
         default:
             sendMessage("console", 'Unknown standard.');
             phantom.exit();
         break;
     }
-
 });
 

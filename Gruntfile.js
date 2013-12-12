@@ -34,9 +34,13 @@ module.exports = function(grunt) {
         accessibilityLevel: 'WCAG2A'
       },
       test : {
-        files: {
-          'reports': 'example/*.html',
-        },
+        files: [{
+          expand  : true,
+          cwd     : 'example/',
+          src     : ['*.html'],
+          dest    : 'reports/',
+          ext     : '-report.txt'
+        }]
       }
     },
 

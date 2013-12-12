@@ -1,5 +1,5 @@
 {
-  "name": "grunt-accessibility",
+  "name": "WCAGLint",
   "description": "Use HTML codesniffer to grade accessibility",
   "version": "0.1.0",
   "homepage": "https://github.com/yargalot/grunt-accessibility",
