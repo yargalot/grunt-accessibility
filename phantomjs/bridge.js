@@ -30,7 +30,7 @@ page.onConsoleMessage = function (message) {
     sendMessage("console", message);
 
     if (message === 'done') {
-        sendMessage("console", 'Closing Phantom');
+        sendMessage("wcaglint.done", options);
         phantom.exit();
     }
 };

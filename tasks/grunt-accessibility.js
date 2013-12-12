@@ -23,8 +23,43 @@ module.exports = function(grunt) {
       });
 
       var done = this.async();
+      var log = '';
 
       grunt.log.writeln('Running accessibility tests'.cyan);
+
+      phantom.on('error.onError', function (msg, trace) {
+        grunt.log.writeln('error: ' + msg);
+      });
+
+      phantom.on('console', function (msg, trace) {
+
+        if (msg === 'done') {
+          return;
+        }
+
+        grunt.log.writeln(msg);
+        log += msg + '\r\n';
+      });
+
+      phantom.on('wcaglint.done', function (msg, trace) {
+          grunt.log.writeln('Report Finished'.cyan);
+          grunt.file.write(options.filedest , log);
+          grunt.log.writeln('File "' + options.filedest + '" created.');
+          log = '';
+          phantom.halt();
+          return;
+      });
+
+      // Built-in error handlers.
+      phantom.on('fail.load', function(url) {
+        phantom.halt();
+        grunt.warn('PhantomJS unable to load URL.');
+      });
+
+      phantom.on('fail.timeout', function() {
+        phantom.halt();
+        grunt.warn('PhantomJS timed out.');
+      });
 
       grunt.util.async.forEachSeries(this.files, function(file, next) {
 
@@ -33,7 +68,6 @@ module.exports = function(grunt) {
           return;
         }
 
-        var log = '';
         var filename = path.basename(file.src, ['.html'])
 
         file.src.filter(function(filepath) {
@@ -46,13 +80,13 @@ module.exports = function(grunt) {
           }
         }).forEach(function(filepath) {
 
+          options.filedest = file.dest;
+
           phantom.spawn(filepath, {
             // Additional PhantomJS options.
             options: options,
             // Complete the task when done.
             done: function (err) {
-
-              grunt.log.writeln('TEST'.cyan);
 
               if (err) {
                   // If there was an error, abort the series.
@@ -64,35 +98,6 @@ module.exports = function(grunt) {
             }
           });
 
-        });
-
-        phantom.on('error.onError', function (msg, trace) {
-          grunt.log.writeln('error: ' + msg);
-        });
-
-        phantom.on('console', function (msg, trace) {
-          if (msg === 'done') {
-            grunt.log.writeln('Report Finished'.cyan);
-            grunt.file.write(file.dest , log);
-            grunt.log.writeln('File "' + file.dest + '" created.');
-            log = '';
-            return;
-          }
-
-          grunt.log.writeln(msg);
-          log += msg + '\r\n';
-
-        });
-
-        // Built-in error handlers.
-        phantom.on('fail.load', function(url) {
-          phantom.halt();
-          grunt.warn('PhantomJS unable to load URL.');
-        });
-
-        phantom.on('fail.timeout', function() {
-          phantom.halt();
-          grunt.warn('PhantomJS timed out.');
         });
 
       });
