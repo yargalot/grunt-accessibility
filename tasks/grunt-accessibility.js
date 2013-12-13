@@ -37,7 +37,20 @@ module.exports = function(grunt) {
           return;
         }
 
-        grunt.log.writeln(msg);
+        var msgSplit = msg.split('|');
+
+        if (msgSplit[0] === 'ERROR' || 'NOTICE') {
+
+          var heading = msgSplit[0] === 'ERROR' ? msgSplit[0].red  : msgSplit[0].yellow;
+          heading += ' '+ msgSplit[1];
+
+          grunt.log.writeln(heading);
+          grunt.log.writeln(msgSplit[2]);
+
+        } else {
+          grunt.log.writeln(msg);
+        }
+
         log += msg + '\r\n';
       });
 
