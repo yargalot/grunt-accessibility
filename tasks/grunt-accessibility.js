@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 
         var msgSplit = msg.split('|');
 
-        if (msgSplit[0] === 'ERROR' || 'NOTICE') {
+        if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE') {
 
           var heading = msgSplit[0] === 'ERROR' ? msgSplit[0].red  : msgSplit[0].yellow;
           heading += ' '+ msgSplit[1];
@@ -47,11 +47,12 @@ module.exports = function(grunt) {
           grunt.log.writeln(heading);
           grunt.log.writeln(msgSplit[2]);
 
+          log += msg + '\r\n';
+
         } else {
           grunt.log.writeln(msg);
         }
 
-        log += msg + '\r\n';
       });
 
       phantom.on('wcaglint.done', function (msg, trace) {
@@ -81,7 +82,7 @@ module.exports = function(grunt) {
           return;
         }
 
-        var filename = path.basename(file.src, ['.html'])
+        var filename = path.basename(file.src, ['.html']);
 
         file.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).

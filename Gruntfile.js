@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 
     // Before generating any new files, remove any previously-created files.
     clean: {
-      tests: ['tmp'],
+      tests: ['reports'],
     },
 
     // Configuration to be run (and then tested).
@@ -61,7 +61,8 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'accessibility', 'nodeunit']);
+  grunt.registerTask('test', ['jshint', 'nodeunit', 'clean', 'accessibility']);
+  grunt.registerTask('node', ['nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['accessibility']);

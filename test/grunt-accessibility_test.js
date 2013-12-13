@@ -28,21 +28,16 @@ exports.init_gruntplugin_sample = {
     done();
   },
   default_options: function(test) {
-    test.expect(1);
+    test.expect(2);
 
-    var actual = grunt.file.read('tmp/default_options');
-    var expected = grunt.file.read('test/expected/default_options');
-    test.equal(actual, expected, 'should describe what the default behavior is.');
+    var actual = grunt.file.read('reports/carsales-report.txt');
+    var expected = grunt.file.read('test/expected/carsales-report.txt');
+    test.equal(actual, expected, 'Should produce a default report for carsales');
 
-    test.done();
-  },
-  custom_options: function(test) {
-    test.expect(1);
-
-    var actual = grunt.file.read('tmp/custom_options');
-    var expected = grunt.file.read('test/expected/custom_options');
-    test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+    actual = grunt.file.read('reports/test-report.txt');
+    expected = grunt.file.read('test/expected/test-report.txt');
+    test.equal(actual, expected, 'Should produce a default report for a test file');
 
     test.done();
-  },
+  }
 };
