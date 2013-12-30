@@ -1,4 +1,4 @@
-# grunt-accessibility [![Build Status](https://travis-ci.org/yargalot/grunt-accessibility.png?branch=master)](https://travis-ci.org/yargalot/grunt-accessibility)
+# Grunt Accessibility [![Build Status](https://travis-ci.org/yargalot/grunt-accessibility.png?branch=master)](https://travis-ci.org/yargalot/grunt-accessibility)
 
 Uses [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer) to grade your sites acccessibility using different levels of the WCAG guidelines
 
