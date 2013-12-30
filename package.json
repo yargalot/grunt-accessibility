@@ -1,6 +1,6 @@
 {
-  "name": "WCAGLint",
-  "description": "Use HTML codesniffer to grade accessibility",
+  "name": "grunt-accessibility",
+  "description": "Grade your sites accessibility and generate a report from different WCAG levels",
   "version": "0.1.0",
   "homepage": "https://github.com/yargalot/grunt-accessibility",
   "author": "Steven John Miller (http://www.stevenjohnmiller.com/)",
