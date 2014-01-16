@@ -1,6 +1,13 @@
 language: node_js
 node_js:
-   - "0.10"
-
+- '0.10'
 before_script:
-  - npm install -g grunt-cli
+- npm install -g grunt-cli
+deploy:
+  provider: npm
+  email: steven.jmiller@gmail.com
+  api_key:
+    secure: fmpyRWvvE/82GIk6AaIasVHKeKbEwRQT3cUZp0aJjxHbTnvRafYD+tTGJhNaDY/cNOir13N2DbKwznPugGpv2aFaQ+NJcU2smbedI+bhtpMoxGZSJyigITDqBJP7i895xRAR3wuKwPz5v370dZUif0f+kioIJEnrhxlXGC91VGU=
+  on:
+    tags: true
+    repo: yargalot/grunt-accessibility
