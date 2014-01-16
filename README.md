@@ -3,7 +3,7 @@
 Uses [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer) to grade your sites acccessibility using different levels of the WCAG guidelines
 
 ## Getting Started
-Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-email-builder`
+Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-accessibility`
 
 Then add this line to your project's `grunt.js` gruntfile:
 
