@@ -1,4 +1,3 @@
-
 "use strict";
 
 var fs = require("fs");
@@ -41,7 +40,7 @@ page.onError = function (msg, trace) {
 
 page.onInitialized = function() {
     //sendMessage("console", 'Page Loading...');
-}
+};
 
 page.onLoadFinished = function(status) {
   sendMessage("console", 'Page Loaded. Starting Tests');
@@ -49,10 +48,14 @@ page.onLoadFinished = function(status) {
 
 };
 
+var scriptPathRelease   = 'node_modules/grunt-accessibility/tasks/HTML_CodeSniffer/Standards';
+var scriptPathDev       = 'tasks/HTML_CodeSniffer/Standards';
+var scriptPath          = fs.exists(scriptPathRelease) ? scriptPathRelease : scriptPathDev;
+
 page.open(url, function (status) {
 
     // Include all sniff files.
-    var fs = require('fs');
+
     var injectAllStandards = function(dir) {
         var files = fs.list(dir),
             filesLen = files.length,
@@ -73,7 +76,9 @@ page.open(url, function (status) {
         }
     };
 
-    injectAllStandards('tasks/HTML_CodeSniffer/Standards');
+    sendMessage("console", scriptPath);
+
+    injectAllStandards(scriptPath);
     page.injectJs('../tasks/HTML_CodeSniffer/HTMLCS.js');
     page.injectJs('../tasks/HTML_CodeSniffer/PhantomJS/runner.js');
 
@@ -81,13 +86,19 @@ page.open(url, function (status) {
     // the loaded page's context. We can't pass any variable to it.
     switch (options.accessibilityLevel) {
         case 'WCAG2A':
-            page.evaluate(function() {HTMLCS_RUNNER.run('WCAG2A');});
+            page.evaluate(function() {
+                HTMLCS_RUNNER.run('WCAG2A');
+            });
         break;
         case 'WCAG2AA':
-            page.evaluate(function() {HTMLCS_RUNNER.run('WCAG2AA');});
+            page.evaluate(function() {
+                HTMLCS_RUNNER.run('WCAG2AA');
+            });
         break;
         case 'WCAG2AAA':
-            page.evaluate(function() {HTMLCS_RUNNER.run('WCAG2AAA');});
+            page.evaluate(function() {
+                HTMLCS_RUNNER.run('WCAG2AAA');
+            });
         break;
         default:
             sendMessage("console", 'Unknown standard.');
