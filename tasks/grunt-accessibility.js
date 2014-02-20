@@ -17,93 +17,94 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('accessibility', 'Use HTML codesniffer to grade accessibility', function() {
 
-      var options = this.options({
-        phantomScript: asset('phantomjs/bridge.js'),
-        urls: []
-      });
+    var options = this.options({
+      phantomScript: asset('phantomjs/bridge.js'),
+      urls: []
+    });
 
-      var done = this.async();
-      var log = '';
+    var done = this.async();
+    var log = '';
 
-      grunt.log.writeln('Running accessibility tests'.cyan);
+    grunt.log.writeln('Running accessibility tests'.cyan);
 
-      phantom.on('error.onError', function (msg, trace) {
-        grunt.log.writeln('error: ' + msg);
-      });
+    phantom.on('error.onError', function (msg, trace) {
+      grunt.log.writeln('error: ' + msg);
+    });
 
+    phantom.on('console', function (msg, trace) {
 
-      phantom.on('console', function (msg, trace) {
+      var msgSplit = msg.split('|');
 
-        var msgSplit = msg.split('|');
+      if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE') {
 
-        if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE') {
+        var heading = msgSplit[0] === 'ERROR' ? msgSplit[0].red : msgSplit[0].yellow;
+        heading += ' '+ msgSplit[1];
 
-          var heading = msgSplit[0] === 'ERROR' ? msgSplit[0].red : msgSplit[0].yellow;
-          heading += ' '+ msgSplit[1];
+        grunt.log.writeln(heading);
+        grunt.log.writeln(msgSplit[2]);
 
-          grunt.log.writeln(heading);
-          grunt.log.writeln(msgSplit[2]);
+        log += msg + '\r\n';
 
-          log += msg + '\r\n';
+      } else {
 
-        } else {
-          grunt.log.writeln(msg);
-        }
+        grunt.log.writeln(msg);
 
-      });
+      }
 
-      phantom.on('wcaglint.done', function (msg, trace) {
-          grunt.log.writeln('Report Finished'.cyan);
-          grunt.file.write(options.filedest , log);
-          grunt.log.writeln('File "' + options.filedest + '" created.');
-          log = '';
+    });
 
-          phantom.halt();
-      });
+    phantom.on('wcaglint.done', function (msg, trace) {
+        grunt.log.writeln('Report Finished'.cyan);
+        grunt.file.write(options.filedest , log);
+        grunt.log.writeln('File "' + options.filedest + '" created.');
+        log = '';
 
-      // Built-in error handlers.
-      phantom.on('fail.load', function(url) {
         phantom.halt();
-        grunt.warn('PhantomJS unable to load URL.');
-      });
+    });
 
-      phantom.on('fail.timeout', function() {
-        phantom.halt();
-        grunt.warn('PhantomJS timed out.');
-      });
+    // Built-in error handlers.
+    phantom.on('fail.load', function(url) {
+      phantom.halt();
+      grunt.warn('PhantomJS unable to load URL.');
+    });
 
-      // Start the running thing
-      var totalFiles  = this.files.length;
-      var currentFile = 0;
+    phantom.on('fail.timeout', function() {
+      phantom.halt();
+      grunt.warn('PhantomJS timed out.');
+    });
 
-      grunt.util.async.forEachSeries(this.files, function(file, next) {
+    // Start the running thing
+    var totalFiles  = this.files.length;
+    var currentFile = 0;
 
-        if (!file.src) {
-          done();
-        }
+    grunt.util.async.forEachSeries(this.files, function(file, next) {
 
-        var filename = path.basename(file.src, ['.html']);
+      if (!file.src) {
+        done();
+      }
 
-        options.filedest = file.dest;
+      var filename = path.basename(file.src, ['.html']);
 
-        phantom.spawn(file.src, {
-          // Additional PhantomJS options.
-          options: options,
-          // Complete the task when done.
-          done: function (err) {
+      options.filedest = file.dest;
 
-            currentFile ++;
+      phantom.spawn(file.src, {
+        // Additional PhantomJS options.
+        options: options,
+        // Complete the task when done.
+        done: function (err) {
 
-            if (currentFile === totalFiles || err) {
-              done();
-            }
+          currentFile ++;
 
-            next();
-
+          if (currentFile === totalFiles || err) {
+            done();
           }
-        });
 
+          next();
+
+        }
       });
+
+    });
 
   });
 
