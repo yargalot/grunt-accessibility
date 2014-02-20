@@ -39,6 +39,7 @@ You can pass some options
 
 ### Accessibility Level
 ```accessibilityLevel``` is a string
+
 Levels are ```WCAG2A```, ```WCAG2AA```, and ```WCAG2AAA```
 
 You can link to the files you wish to lint using the grunt api. The result will be the results file.
