@@ -34,6 +34,9 @@ accessibility: {
 }
 ```
 
+## Report Generation
+You can link to the files you wish to lint using the grunt api. The result will be the results file.
+
 ## Options
 You can pass some options
 
@@ -42,8 +45,7 @@ You can pass some options
 
 Levels are ```WCAG2A```, ```WCAG2AA```, and ```WCAG2AAA```
 
-You can link to the files you wish to lint using the grunt api. The result will be the results file.
-
+## Built from
 This is built of [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer)
 
 ## Contributing
