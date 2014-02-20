@@ -66,6 +66,6 @@ module.exports = function(grunt) {
   grunt.registerTask('node', ['nodeunit']);
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['accessibility']);
+  grunt.registerTask('default', ['accessibility:test']);
 
 };
