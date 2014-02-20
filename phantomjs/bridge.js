@@ -26,11 +26,11 @@ var page = require("webpage").create();
 
 // Relay console logging messages.
 page.onConsoleMessage = function (message) {
-    sendMessage("console", message);
 
     if (message === 'done') {
         sendMessage("wcaglint.done", options);
-        phantom.exit();
+    } else {
+        sendMessage("console", message);
     }
 };
 
@@ -75,8 +75,6 @@ page.open(url, function (status) {
             }
         }
     };
-
-    sendMessage("console", scriptPath);
 
     injectAllStandards(scriptPath);
     page.injectJs('../tasks/HTML_CodeSniffer/HTMLCS.js');

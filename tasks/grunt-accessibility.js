@@ -31,17 +31,14 @@ module.exports = function(grunt) {
         grunt.log.writeln('error: ' + msg);
       });
 
-      phantom.on('console', function (msg, trace) {
 
-        if (msg === 'done') {
-          return;
-        }
+      phantom.on('console', function (msg, trace) {
 
         var msgSplit = msg.split('|');
 
         if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE') {
 
-          var heading = msgSplit[0] === 'ERROR' ? msgSplit[0].red  : msgSplit[0].yellow;
+          var heading = msgSplit[0] === 'ERROR' ? msgSplit[0].red : msgSplit[0].yellow;
           heading += ' '+ msgSplit[1];
 
           grunt.log.writeln(heading);
@@ -60,8 +57,8 @@ module.exports = function(grunt) {
           grunt.file.write(options.filedest , log);
           grunt.log.writeln('File "' + options.filedest + '" created.');
           log = '';
+
           phantom.halt();
-          return;
       });
 
       // Built-in error handlers.
@@ -75,43 +72,35 @@ module.exports = function(grunt) {
         grunt.warn('PhantomJS timed out.');
       });
 
+      // Start the running thing
+      var totalFiles  = this.files.length;
+      var currentFile = 0;
+
       grunt.util.async.forEachSeries(this.files, function(file, next) {
 
         if (!file.src) {
           done();
-          return;
         }
 
         var filename = path.basename(file.src, ['.html']);
 
-        file.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-          if (!grunt.file.exists(filepath)) {
-            grunt.log.warn('Source file "' + filepath + '" not found.');
-            return false;
-          } else {
-            return true;
-          }
-        }).forEach(function(filepath) {
+        options.filedest = file.dest;
 
-          options.filedest = file.dest;
+        phantom.spawn(file.src, {
+          // Additional PhantomJS options.
+          options: options,
+          // Complete the task when done.
+          done: function (err) {
 
-          phantom.spawn(filepath, {
-            // Additional PhantomJS options.
-            options: options,
-            // Complete the task when done.
-            done: function (err) {
+            currentFile ++;
 
-              if (err) {
-                  // If there was an error, abort the series.
-                  done();
-              } else {
-                  // Otherwise, process next url.
-                  next();
-              }
+            if (currentFile === totalFiles || err) {
+              done();
             }
-          });
 
+            next();
+
+          }
         });
 
       });

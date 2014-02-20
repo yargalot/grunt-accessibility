@@ -4,8 +4,9 @@ var page = require('webpage').create(),
 
 if (system.args.length < 3 || system.args.length > 3) {
     console.log('Usage: phantomjs HTMLCS_Run.js URL standard');
-    console.log('  available standards: "WCAG2A", "WCAG2AA", "WCAG2AAA"');
+    console.log('available standards: "WCAG2A", "WCAG2AA", "WCAG2AAA"');
     phantom.exit();
+    
 } else {
     address  = system.args[1];
     standard = system.args[2];

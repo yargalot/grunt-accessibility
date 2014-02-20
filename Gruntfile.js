@@ -31,6 +31,7 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     accessibility: {
       options : {
+        // Levels are 'WCAG2A', 'WCAG2AA', 'WCAG2AAA', 'Section508'
         accessibilityLevel: 'WCAG2A'
       },
       test : {
@@ -61,7 +62,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['jshint', 'clean', 'accessibility', 'nodeunit']);
+  grunt.registerTask('test', ['jshint', 'accessibility:test', 'nodeunit', 'clean']);
   grunt.registerTask('node', ['nodeunit']);
 
   // By default, lint and run all tests.

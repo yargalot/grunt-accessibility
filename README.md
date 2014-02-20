@@ -1,6 +1,6 @@
 # Grunt Accessibility [![Build Status](https://travis-ci.org/yargalot/grunt-accessibility.png?branch=master)](https://travis-ci.org/yargalot/grunt-accessibility)
 
-Uses [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer) to grade your sites acccessibility using different levels of the WCAG guidelines
+Grade your sites acccessibility using different levels of the WCAG guidelines
 
 ## Getting Started
 Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-accessibility`
@@ -34,6 +34,13 @@ accessibility: {
 }
 ```
 
+## Options
+You can pass some options
+
+### Accessibility Level
+'''accessibilityLevel''' is a string
+Levels are 'WCAG2A', 'WCAG2AA', and 'WCAG2AAA'
+
 You can link to the files you wish to lint using the grunt api. The result will be the results file.
 
 This is built of [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer)
@@ -42,6 +49,8 @@ This is built of [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
+- 0.3 Fix so you can run another grunt process after running
+- 0.2 Fix so people can actually run this thing now
 - 0.1.1 Update Documentation for install
 - 0.1 Initial release
 
