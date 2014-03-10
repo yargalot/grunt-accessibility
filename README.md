@@ -45,6 +45,17 @@ You can pass some options
 
 Levels are ```WCAG2A```, ```WCAG2AA```, and ```WCAG2AAA```
 
+
+### Ignore
+You can ignore rules by placing them in an array outlined below
+
+```
+  ignore : [
+    'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl'
+    'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
+  ]
+```
+
 ## Built from
 This is built of [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer)
 
@@ -52,6 +63,7 @@ This is built of [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
+- 0.4 Added in ignore rule, refactored some scripts for better injection via phantom
 - 0.3 Fix so you can run another grunt process after running
 - 0.2 Fix so people can actually run this thing now
 - 0.1.1 Update Documentation for install
