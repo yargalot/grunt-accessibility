@@ -1,7 +1,5 @@
+var HTMLCS = new function() {
 
-
-var HTMLCS = new function()
-{
     var _standards    = {};
     var _sniffs       = [];
     var _tags         = {};

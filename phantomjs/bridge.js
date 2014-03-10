@@ -48,36 +48,9 @@ page.onLoadFinished = function(status) {
 
 };
 
-var scriptPathRelease   = 'node_modules/grunt-accessibility/tasks/HTML_CodeSniffer/Standards';
-var scriptPathDev       = 'tasks/HTML_CodeSniffer/Standards';
-var scriptPath          = fs.exists(scriptPathRelease) ? scriptPathRelease : scriptPathDev;
-
 page.open(url, function (status) {
 
-    // Include all sniff files.
-
-    var injectAllStandards = function(dir) {
-        var files = fs.list(dir),
-            filesLen = files.length,
-            absPath = '';
-
-            //sendMessage("console", files)
-        for (var i = 0; i < filesLen; i++) {
-            if (files[i] === '.' || files[i] === '..') continue;
-
-            absPath = fs.absolute(dir + '/' + files[i]);
-            if (fs.isDirectory(absPath) === true) {
-                injectAllStandards(absPath);
-                //sendMessage("console", absPath)
-            } else if (fs.isFile(absPath) === true) {
-                page.injectJs(absPath);
-                //sendMessage("console", absPath)
-            }
-        }
-    };
-
-    injectAllStandards(scriptPath);
-    page.injectJs('../tasks/HTML_CodeSniffer/HTMLCS.js');
+    page.injectJs('../tasks/HTML_CodeSniffer/dist/HTMLCS.min.js');
     page.injectJs('../tasks/HTML_CodeSniffer/PhantomJS/runner.js');
 
     // Now Run. Note that page.evaluate() function is sanboxed to
