@@ -55,6 +55,7 @@ page.open(url, function (status) {
 
     // Now Run. Note that page.evaluate() function is sanboxed to
     // the loaded page's context. We can't pass any variable to it.
+
     switch (options.accessibilityLevel) {
         case 'WCAG2A':
             page.evaluate(function() {

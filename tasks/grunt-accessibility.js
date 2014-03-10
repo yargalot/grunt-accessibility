@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 
   var path      = require('path');
   var fs        = require('fs');
+  var _         = require('underscore');
   var phantom   = require('grunt-lib-phantomjs').init(grunt);
   var asset     = path.join.bind(null, __dirname, '..');
 
@@ -33,7 +34,18 @@ module.exports = function(grunt) {
 
     phantom.on('console', function (msg, trace) {
 
+      var ignore = false;
       var msgSplit = msg.split('|');
+
+      _.each(options.ignore, function(value, key) {
+        if (value === msgSplit[1]) {
+          ignore = true;
+        }
+      });
+
+      if (ignore) {
+        return;
+      }
 
       if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE') {
 

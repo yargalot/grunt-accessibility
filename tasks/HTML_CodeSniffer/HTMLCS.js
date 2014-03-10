@@ -97,7 +97,7 @@ var HTMLCS = new function() {
                 var elements = _getAllTags(element);
                 elements.unshift(element);
                 _run(elements, element, callback);
-            }
+            };
 
             // Satisfy IE which doesn't like onload being set dynamically.
             elementFrame.onreadystatechange = function() {
@@ -105,7 +105,7 @@ var HTMLCS = new function() {
                     this.onreadystatechange = null;
                     this.load();
                 }
-            }
+            };
 
             elementFrame.onload = elementFrame.load;
 
@@ -166,7 +166,7 @@ var HTMLCS = new function() {
         }
 
         return fullDoc;
-    }
+    };
 
     /**
      * Adds a message.
