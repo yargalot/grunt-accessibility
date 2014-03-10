@@ -14,6 +14,16 @@ module.exports = (grunt) ->
     clean:
       tests: ['reports']
 
+    # Combine js into a dist directory
+    uglify:
+      dist:
+        files:
+          'tasks/HTML_CodeSniffer/dist/HTMLCS.min.js': [
+            'tasks/HTML_CodeSniffer/Standards/**/*.js'
+            'tasks/HTML_CodeSniffer/HTMLCS.js'
+            'tasks/HTML_CodeSniffer/PhantomJS/runner.js'
+          ]
+
     # Configuration to be run (and then tested).
     accessibility:
       options :
@@ -38,14 +48,16 @@ module.exports = (grunt) ->
   grunt.loadTasks 'tasks'
 
   # These plugins provide necessary tasks.
-  grunt.loadNpmTasks 'grunt-contrib-jshint'
   grunt.loadNpmTasks 'grunt-contrib-clean'
+  grunt.loadNpmTasks 'grunt-contrib-uglify'
+  grunt.loadNpmTasks 'grunt-contrib-jshint'
   grunt.loadNpmTasks 'grunt-contrib-nodeunit'
 
   # Whenever the "test" task is run, first clean the "tmp" dir, then run this
   # plugin's task(s), then test the result.
-  grunt.registerTask 'test', ['jshint', 'accessibility:test', 'nodeunit', 'clean']
-  grunt.registerTask 'node', ['nodeunit']
+  grunt.registerTask 'build', ['uglify']
+  grunt.registerTask 'test',  ['jshint', 'accessibility:test', 'nodeunit', 'clean']
+  grunt.registerTask 'node',  ['nodeunit']
 
   # By default, lint and run all tests.
   grunt.registerTask 'default', ['accessibility:test']
