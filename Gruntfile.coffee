@@ -9,7 +9,6 @@ module.exports = (grunt) ->
       options:
         jshintrc: '.jshintrc'
 
-
     # Before generating any new files, remove any previously-created files.
     clean:
       tests: ['reports']
