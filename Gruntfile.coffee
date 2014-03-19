@@ -2,7 +2,6 @@ module.exports = (grunt) ->
   grunt.initConfig
     jshint:
       all: [
-        'Gruntfile.js'
         'tasks/*.js'
         '<%= nodeunit.tests %>'
       ]
