@@ -20,7 +20,8 @@ module.exports = function(grunt) {
 
     var options = this.options({
       phantomScript: asset('phantomjs/bridge.js'),
-      urls: []
+      urls: [],
+      domElement: true
     });
 
     var done = this.async();
@@ -48,27 +49,50 @@ module.exports = function(grunt) {
         return;
       }
 
-      if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE') {
+      if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
 
         if (options.outputFormat === 'json') {
+
           logJSON[options.file] = logJSON[options.file] || [];
-          logJSON[options.file].push({
+
+          var currentLog = logJSON[options.file];
+
+          currentLog.push({
             type: msgSplit[0],
             msg: msgSplit[2],
             sc: msgSplit[1].split('.')[3],
-            technique: msgSplit[1].split('.')[4],
-            element: {
+            technique: msgSplit[1].split('.')[4]
+          });
+
+          if (options.domElement) {
+            currentLog[currentLog.length - 1].element = {
               nodeName: msgSplit[3],
               className: msgSplit[4],
               id: msgSplit[5]
-            }
-          });
+            };
+          }
+
         } else {
+
+          if (!options.domElement) {
+            msg = msgSplit.slice(0, 3).join('|');
+          }
+
           log += msg + '\r\n';
+
         }
 
-        var heading = msgSplit[0] === 'ERROR' ? msgSplit[0].red : msgSplit[0].yellow;
-        heading += ' '+ msgSplit[1];
+        var heading = null;
+
+        if (msgSplit[0] === 'ERROR') {
+          heading = msgSplit[0].red;
+        } else if (msgSplit[0] === 'NOTICE') {
+          heading = msgSplit[0].blue;
+        } else if (msgSplit[0] === 'WARNING') {
+          heading = msgSplit[0].yellow;
+        }
+
+        heading += ' ' + msgSplit[1];
 
         grunt.log.writeln(heading);
         grunt.log.writeln(msgSplit[2]);
@@ -90,7 +114,9 @@ module.exports = function(grunt) {
           log = '';
         }
 
-        grunt.log.writeln('File "' + options.filedest + ('.' + options.outputFormat) || ''  + '" created.');
+        grunt.log.writeln('File "' + options.filedest +
+          (options.outputFormat ? '.' + options.outputFormat : '') +
+          '" created.');
 
         phantom.halt();
     });
