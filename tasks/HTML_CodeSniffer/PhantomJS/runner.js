@@ -31,7 +31,7 @@ var HTMLCS_RUNNER = new function() {
             break;
         }//end switch
 
-        console.log(typeName + '|' + msg.code + '|' + msg.msg);
+        console.log(typeName + '|' + msg.code + '|' + msg.msg + '|' + msg.element.nodeName.toLowerCase() + '|' + msg.element.className + '|' + msg.element.id);
     };
 
 };

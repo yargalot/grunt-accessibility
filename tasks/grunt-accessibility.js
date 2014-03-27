@@ -24,7 +24,8 @@ module.exports = function(grunt) {
     });
 
     var done = this.async();
-    var log = '';
+    var log = '',
+        logJSON = {};
 
     grunt.log.writeln('Running accessibility tests'.cyan);
 
@@ -49,14 +50,28 @@ module.exports = function(grunt) {
 
       if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE') {
 
+        if (options.outputFormat === 'json') {
+          logJSON[options.file] = logJSON[options.file] || [];
+          logJSON[options.file].push({
+            type: msgSplit[0],
+            msg: msgSplit[2],
+            sc: msgSplit[1].split('.')[3],
+            technique: msgSplit[1].split('.')[4],
+            element: {
+              nodeName: msgSplit[3],
+              className: msgSplit[4],
+              id: msgSplit[5]
+            }
+          });
+        } else {
+          log += msg + '\r\n';
+        }
+
         var heading = msgSplit[0] === 'ERROR' ? msgSplit[0].red : msgSplit[0].yellow;
         heading += ' '+ msgSplit[1];
 
         grunt.log.writeln(heading);
         grunt.log.writeln(msgSplit[2]);
-
-        log += msg + '\r\n';
-
       } else {
 
         grunt.log.writeln(msg);
@@ -67,9 +82,15 @@ module.exports = function(grunt) {
 
     phantom.on('wcaglint.done', function (msg, trace) {
         grunt.log.writeln('Report Finished'.cyan);
-        grunt.file.write(options.filedest , log);
+
+        if (options.outputFormat === 'json') {
+          grunt.file.write(options.fildest + '.json', JSON.stringify(logJSON[options.file]));
+        } else {
+          grunt.file.write(options.filedest , log);
+          log = '';
+        }
+
         grunt.log.writeln('File "' + options.filedest + '" created.');
-        log = '';
 
         phantom.halt();
     });
@@ -98,6 +119,7 @@ module.exports = function(grunt) {
       var filename = path.basename(file.src, ['.html']);
 
       options.filedest = file.dest;
+      options.file = filename;
 
       phantom.spawn(file.src, {
         // Additional PhantomJS options.
