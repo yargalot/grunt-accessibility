@@ -90,7 +90,7 @@ module.exports = function(grunt) {
           log = '';
         }
 
-        grunt.log.writeln('File "' + options.filedest + '" created.');
+        grunt.log.writeln('File "' + options.filedest + ('.' + options.outputFormat) || ''  + '" created.');
 
         phantom.halt();
     });
