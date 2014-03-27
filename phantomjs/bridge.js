@@ -73,8 +73,9 @@ page.open(url, function (status) {
         break;
         default:
             sendMessage("console", 'Unknown standard.');
-            phantom.exit();
         break;
     }
+
+    phantom.exit();
 });
 
