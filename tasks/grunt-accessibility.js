@@ -84,7 +84,7 @@ module.exports = function(grunt) {
         grunt.log.writeln('Report Finished'.cyan);
 
         if (options.outputFormat === 'json') {
-          grunt.file.write(options.fildest + '.json', JSON.stringify(logJSON[options.file]));
+          grunt.file.write(options.filedest + '.json', JSON.stringify(logJSON[options.file]));
         } else {
           grunt.file.write(options.filedest , log);
           log = '';
