@@ -65,6 +65,13 @@ This is built of [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
+
+### [1.0.0](https://github.com/yargalot/grunt-accessibility/issues?milestone=2&state=closed)
+- Exit phantom process when processing is done
+- Update Dependencies
+- Update to grunt 0.4.4
+
+### Previous Releases
 - 0.4 Added in ignore rule, refactored some scripts for better injection via phantom
 - 0.3 Fix so you can run another grunt process after running
 - 0.2 Fix so people can actually run this thing now
