@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var fs = require("fs");
+var fs = require('fs');
 
 // The temporary file used for communications.
 var tmpfile = phantom.args[0];
@@ -15,35 +15,35 @@ var sendMessage = function (arg) {
     var args = Array.isArray(arg) ? arg : [].slice.call(arguments);
     var channel = args[0];
     args[0] = channel;
-    fs.write(tmpfile, JSON.stringify(args) + "\n", "a");
+    fs.write(tmpfile, JSON.stringify(args) + '\n', 'a');
 };
 
-// This allows grunt to abort if the PhantomJS version isn"t adequate.
-sendMessage("private", "version", phantom.version);
+// This allows grunt to abort if the PhantomJS version isn't adequate.
+sendMessage('private', 'version', phantom.version);
 
 // Create a new page.
-var page = require("webpage").create();
+var page = require('webpage').create();
 
 // Relay console logging messages.
 page.onConsoleMessage = function (message) {
 
     if (message === 'done') {
-        sendMessage("wcaglint.done", options);
+        sendMessage('wcaglint.done', options);
     } else {
-        sendMessage("console", message);
+        sendMessage('console', message);
     }
 };
 
 page.onError = function (msg, trace) {
-    sendMessage("error", msg, trace);
+    sendMessage('error', msg, trace);
 };
 
 page.onInitialized = function() {
-    //sendMessage("console", 'Page Loading...');
+    //sendMessage('console', 'Page Loading...');
 };
 
 page.onLoadFinished = function(status) {
-  sendMessage("console", 'Page Loaded. Starting Tests');
+  sendMessage('console', 'Page Loaded. Starting Tests');
   // Do other things here...
 
 };
@@ -72,7 +72,7 @@ page.open(url, function (status) {
             });
         break;
         default:
-            sendMessage("console", 'Unknown standard.');
+            sendMessage('console', 'Unknown standard.');
         break;
     }
 
