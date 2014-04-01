@@ -36,13 +36,16 @@ module.exports = function(grunt) {
      *
      * outputFormat: specify report output format (text, json), default: text
      * ignore: ignore rules, useful for partials
+     * force: force skip of ERROR messages
+     * verbose: produce verbose output
      *
      */
     accessibility: {
       txt: {
         options: {
           accessibilityLevel: 'WCAG2A',
-          domElement: false
+          domElement: false,
+          force: true
           // ignore : [
           //   'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl'
           //   'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
@@ -58,7 +61,8 @@ module.exports = function(grunt) {
       },
       txtDom: {
         options: {
-          accessibilityLevel: 'WCAG2A'
+          accessibilityLevel: 'WCAG2A',
+          force: true
         },
         files: [{
             expand: true,
@@ -72,7 +76,8 @@ module.exports = function(grunt) {
         options: {
           accessibilityLevel: 'WCAG2A',
           outputFormat: 'json',
-          domElement: false
+          domElement: false,
+          force: true
         },
         files: [{
             expand: true,
@@ -85,7 +90,8 @@ module.exports = function(grunt) {
       jsonDom: {
         options: {
           accessibilityLevel: 'WCAG2A',
-          outputFormat: 'json'
+          outputFormat: 'json',
+          force: true
         },
         files: [{
             expand: true,
