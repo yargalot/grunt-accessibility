@@ -49,6 +49,9 @@ Levels are ```WCAG2A```, ```WCAG2AA```, and ```WCAG2AAA```
 
 
 ### Ignore
+
+```ignore``` is a array
+
 You can ignore rules by placing them in an array outlined below
 
 ```
@@ -57,6 +60,37 @@ You can ignore rules by placing them in an array outlined below
     'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
   ]
 ```
+
+### Output Format
+
+```outputFormat``` is a string
+
+
+Text and JSON format output, default is current text format
+
+- 'txt' will output text files
+- 'json' will output .json files
+
+
+### Verbose output
+
+```outputFormat``` is a boolean
+
+Output messages to console, to remove noise from console by default
+
+
+### DomElement
+
+``` domElement ``` is a boolean
+
+Include reference (tag name, class names & id) to reported  elements. Optional for both output formats.
+
+### Force
+
+```force``` is a boolean
+
+Continue running grunt in the event of failures
+
 
 ## Built from
 This is built of [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer)
