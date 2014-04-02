@@ -8,7 +8,7 @@
 
 'use strict';
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
   var path      = require('path');
   var fs        = require('fs');
@@ -20,11 +20,13 @@ module.exports = function(grunt) {
 
     var options = this.options({
       phantomScript: asset('phantomjs/bridge.js'),
-      urls: []
+      urls: [],
+      domElement: true
     });
 
     var done = this.async();
-    var log = '';
+    var log = '',
+        logJSON = {};
 
     grunt.log.writeln('Running accessibility tests'.cyan);
 
@@ -37,7 +39,11 @@ module.exports = function(grunt) {
       var ignore = false;
       var msgSplit = msg.split('|');
 
-      _.each(options.ignore, function(value, key) {
+      if (msgSplit[0] === 'ERROR' && !options.force) {
+        grunt.fail.warn(msgSplit[1] + ': ' + msgSplit[2]);
+      }
+
+      _.each(options.ignore, function (value, key) {
         if (value === msgSplit[1]) {
           ignore = true;
         }
@@ -47,35 +53,83 @@ module.exports = function(grunt) {
         return;
       }
 
-      if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE') {
+      if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
 
-        var heading = msgSplit[0] === 'ERROR' ? msgSplit[0].red : msgSplit[0].yellow;
-        heading += ' '+ msgSplit[1];
+        if (options.outputFormat === 'json') {
 
-        grunt.log.writeln(heading);
-        grunt.log.writeln(msgSplit[2]);
+          logJSON[options.file] = logJSON[options.file] || [];
 
-        log += msg + '\r\n';
+          var currentLog = logJSON[options.file];
+
+          currentLog.push({
+            type: msgSplit[0],
+            msg: msgSplit[2],
+            sc: msgSplit[1].split('.')[3],
+            technique: msgSplit[1].split('.')[4]
+          });
+
+          if (options.domElement) {
+            currentLog[currentLog.length - 1].element = {
+              nodeName: msgSplit[3],
+              className: msgSplit[4],
+              id: msgSplit[5]
+            };
+          }
+
+        } else {
+
+          if (!options.domElement) {
+            msg = msgSplit.slice(0, 3).join('|');
+          }
+
+          log += msg + '\r\n';
+
+        }
+
+        if (options.verbose) {
+          var heading = null;
+
+          if (msgSplit[0] === 'ERROR') {
+            heading = msgSplit[0].red;
+          } else if (msgSplit[0] === 'NOTICE') {
+            heading = msgSplit[0].blue;
+          } else if (msgSplit[0] === 'WARNING') {
+            heading = msgSplit[0].yellow;
+          }
+
+          heading += ' ' + msgSplit[1];
+
+          grunt.log.writeln(heading);
+          grunt.log.writeln(msgSplit[2]);
+        }
 
       } else {
-
-        grunt.log.writeln(msg);
-
+        if (options.verbose) {
+          grunt.log.writeln(msg);
+        }
       }
 
     });
 
     phantom.on('wcaglint.done', function (msg, trace) {
         grunt.log.writeln('Report Finished'.cyan);
-        grunt.file.write(options.filedest , log);
-        grunt.log.writeln('File "' + options.filedest + '" created.');
-        log = '';
+
+        if (options.outputFormat === 'json') {
+          grunt.file.write(options.filedest + '.json', JSON.stringify(logJSON[options.file]));
+        } else {
+          grunt.file.write(options.filedest , log);
+          log = '';
+        }
+
+        grunt.log.writeln('File "' + options.filedest +
+          (options.outputFormat ? '.' + options.outputFormat : '') +
+          '" created.');
 
         phantom.halt();
     });
 
     // Built-in error handlers.
-    phantom.on('fail.load', function(url) {
+    phantom.on('fail.load', function (url) {
       phantom.halt();
       grunt.warn('PhantomJS unable to load URL.');
     });
@@ -89,7 +143,7 @@ module.exports = function(grunt) {
     var totalFiles  = this.files.length;
     var currentFile = 0;
 
-    grunt.util.async.forEachSeries(this.files, function(file, next) {
+    grunt.util.async.forEachSeries(this.files, function (file, next) {
 
       if (!file.src) {
         done();
@@ -98,6 +152,7 @@ module.exports = function(grunt) {
       var filename = path.basename(file.src, ['.html']);
 
       options.filedest = file.dest;
+      options.file = filename;
 
       phantom.spawn(file.src, {
         // Additional PhantomJS options.

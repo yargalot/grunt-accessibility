@@ -28,15 +28,39 @@ exports.init_gruntplugin_sample = {
     done();
   },
   default_options: function(test) {
-    test.expect(2);
+    test.expect(8);
 
-    var actual = grunt.file.read('reports/carsales-report.txt');
-    var expected = grunt.file.read('test/expected/carsales-report.txt');
-    test.equal(actual, expected, 'Should produce a default report for carsales');
+    var actual = grunt.file.read('reports/carsales-report');
+    var expected = grunt.file.read('test/expected/carsales-report');
+    test.equal(actual, expected, 'Should produce a default report without DOM element for carsales');
 
-    actual = grunt.file.read('reports/test-report.txt');
-    expected = grunt.file.read('test/expected/test-report.txt');
-    test.equal(actual, expected, 'Should produce a default report for a test file');
+    actual = grunt.file.read('reports/carsales-report-dom');
+    expected = grunt.file.read('test/expected/carsales-report-dom');
+    test.equal(actual, expected, 'Should produce a default report with DOM element for carsales');
+
+    actual = grunt.file.read('reports/carsales-report.json');
+    expected = grunt.file.read('test/expected/carsales-report.json');
+    test.equal(actual, expected, 'Should produce JSON report without DOM element for carsales');
+
+    actual = grunt.file.read('reports/carsales-report-dom.json');
+    expected = grunt.file.read('test/expected/carsales-report-dom.json');
+    test.equal(actual, expected, 'Should produce JSON report with DOM element for carsales');
+
+    actual = grunt.file.read('reports/test-report');
+    expected = grunt.file.read('test/expected/test-report');
+    test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
+
+    actual = grunt.file.read('reports/test-report-dom');
+    expected = grunt.file.read('test/expected/test-report-dom');
+    test.equal(actual, expected, 'Should produce a default report with DOM element for a test file');
+
+    actual = grunt.file.read('reports/test-report.json');
+    expected = grunt.file.read('test/expected/test-report.json');
+    test.equal(actual, expected, 'Should produce JSON report without DOM element for a test file');
+
+    actual = grunt.file.read('reports/test-report-dom.json');
+    expected = grunt.file.read('test/expected/test-report-dom.json');
+    test.equal(actual, expected, 'Should produce JSON report with DOM element for a test file');
 
     test.done();
   }
