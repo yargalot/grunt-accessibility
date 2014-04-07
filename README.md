@@ -2,7 +2,7 @@
 
 Grade your sites acccessibility using different levels of the WCAG guidelines
 
-[![NPM version](https://badge.fury.io/js/grunt-accessibility.png)](http://badge.fury.io/js/grunt-accessibility) [![Build Status](https://travis-ci.org/yargalot/grunt-accessibility.png?branch=master)](https://travis-ci.org/yargalot/grunt-accessibility) [![Dependency Status](https://gemnasium.com/yargalot/grunt-accessibility.png)](https://gemnasium.com/yargalot/grunt-accessibility) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![NPM version](https://badge.fury.io/js/grunt-accessibility.png)](http://badge.fury.io/js/grunt-accessibility) [![Build Status](https://travis-ci.org/yargalot/grunt-accessibility.svg?branch=master)](https://travis-ci.org/yargalot/grunt-accessibility) [![Dependency Status](https://gemnasium.com/yargalot/grunt-accessibility.png)](https://gemnasium.com/yargalot/grunt-accessibility) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 ## Getting Started
 Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-accessibility`
@@ -74,7 +74,7 @@ Text and JSON format output, default is current text format
 
 ### Verbose output
 
-```outputFormat``` is a boolean
+```verbose``` is a boolean
 
 Output messages to console, to remove noise from console by default
 
@@ -100,6 +100,12 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+### [1.1.0](https://github.com/yargalot/grunt-accessibility/issues?milestone=3&page=1&state=closed)
+- Add JSON report option
+- Add Dom Element option
+- Add Force option
+- Add Verbose option
+
 ### [1.0.0](https://github.com/yargalot/grunt-accessibility/issues?milestone=2&state=closed)
 - Exit phantom process when processing is done
 - Update Dependencies
@@ -113,5 +119,5 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 - 0.1 Initial release
 
 ## License
-Copyright (c) 2013 Steven Miller
+Copyright (c) 2014 Steven Miller
 Licensed under the MIT license.
