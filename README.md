@@ -54,7 +54,7 @@ Levels are ```WCAG2A```, ```WCAG2AA```, and ```WCAG2AAA```
 
 You can ignore rules by placing them in an array outlined below
 
-```
+```javascript
   ignore : [
     'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl'
     'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
@@ -64,6 +64,12 @@ You can ignore rules by placing them in an array outlined below
 ### Output Format
 
 ```outputFormat``` is a string
+
+```javascript
+  options: {
+    outputFormat: 'json'
+  }
+```
 
 
 Text and JSON format output, default is current text format
@@ -76,18 +82,36 @@ Text and JSON format output, default is current text format
 
 ```verbose``` is a boolean
 
-Output messages to console, to remove noise from console by default
+```javascript
+  options: {
+    verbose: false
+  }
+```
+
+Output messages to console, set to false by default
 
 
 ### DomElement
 
 ``` domElement ``` is a boolean
 
+```javascript
+options: {
+  domElement: false
+}
+```
+
 Include reference (tag name, class names & id) to reported  elements. Optional for both output formats.
 
 ### Force
 
 ```force``` is a boolean
+
+```javascript
+options: {
+  force: true
+}
+```
 
 Continue running grunt in the event of failures
 
