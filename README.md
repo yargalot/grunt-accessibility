@@ -45,6 +45,12 @@ You can pass some options
 ### Accessibility Level
 ```accessibilityLevel``` is a string
 
+```javascript
+options: {
+  accessibilityLevel: 'WCAG2A'
+}
+```
+
 Levels are ```WCAG2A```, ```WCAG2AA```, and ```WCAG2AAA```
 
 
