@@ -46,9 +46,9 @@ You can pass some options
 ```accessibilityLevel``` is a string
 
 ```javascript
-options: {
-  accessibilityLevel: 'WCAG2A'
-}
+  options: {
+    accessibilityLevel: 'WCAG2A'
+  }
 ```
 
 Levels are ```WCAG2A```, ```WCAG2AA```, and ```WCAG2AAA```
@@ -102,9 +102,9 @@ Output messages to console, set to true by default
 ``` domElement ``` is a boolean
 
 ```javascript
-options: {
-  domElement: false
-}
+  options: {
+    domElement: false
+  }
 ```
 
 Include reference (tag name, class names & id) to reported  elements. Optional for both output formats.
@@ -114,9 +114,9 @@ Include reference (tag name, class names & id) to reported  elements. Optional f
 ```force``` is a boolean
 
 ```javascript
-options: {
-  force: true
-}
+  options: {
+    force: true
+  }
 ```
 
 Continue running grunt in the event of failures
