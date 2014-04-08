@@ -94,7 +94,7 @@ Text and JSON format output, default is current text format
   }
 ```
 
-Output messages to console, set to false by default
+Output messages to console, set to true by default
 
 
 ### DomElement

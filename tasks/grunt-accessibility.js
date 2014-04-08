@@ -21,7 +21,8 @@ module.exports = function (grunt) {
     var options = this.options({
       phantomScript: asset('phantomjs/bridge.js'),
       urls: [],
-      domElement: true
+      domElement: true,
+      verbose: true
     });
 
     var done = this.async();
