@@ -1,6 +1,6 @@
 # Grunt Accessibility
 
-Grade your sites acccessibility using different levels of the WCAG guidelines
+Grade your sites accessibility using different levels of the WCAG guidelines
 
 [![NPM version](https://badge.fury.io/js/grunt-accessibility.png)](http://badge.fury.io/js/grunt-accessibility) [![Build Status](https://travis-ci.org/yargalot/grunt-accessibility.svg?branch=master)](https://travis-ci.org/yargalot/grunt-accessibility) [![Dependency Status](https://gemnasium.com/yargalot/grunt-accessibility.png)](https://gemnasium.com/yargalot/grunt-accessibility) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
