@@ -9,6 +9,7 @@
 var path      = require('path');
 var fs        = require('fs');
 var _         = require('underscore');
+var Promise   = require('bluebird'),
 var phantom   = require('grunt-lib-phantomjs').init(grunt);
 var asset     = path.join.bind(null, __dirname, '..');
 
@@ -35,6 +36,12 @@ Accessibility.Defaults         = {
 };
 
 
+
+/**
+* The Message Terminal, choo choo
+*
+*
+*/
 
 Accessibility.prototype.terminalLog = function(msg, trace) {
   var ignore = false;
@@ -112,6 +119,7 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
     }
   }
 }
+
 
 
 /**
