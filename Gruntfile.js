@@ -53,7 +53,7 @@ module.exports = function(grunt) {
         files: [{
             expand: true,
             cwd: 'example/',
-            src: ['*.html'],
+            src: ['test.html'],
             dest: 'reports/',
             ext: '-report'
         }]
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'example/',
-          src: ['*.html'],
+          src: ['derp.html'],
           dest: 'reports/',
           ext: '-report-dom'
         }]
@@ -81,7 +81,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'example/',
-          src: ['*.html'],
+          src: ['test.html'],
           dest: 'reports/',
           ext: '-report'
         }]
@@ -95,7 +95,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'example/',
-          src: ['*.html'],
+          src: ['test.html'],
           dest: 'reports/',
           ext: '-report-dom'
         }]
