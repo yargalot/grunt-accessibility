@@ -62,6 +62,10 @@ exports.init_gruntplugin_sample = {
     expected = grunt.file.read('test/expected/test-report-dom.json');
     test.equal(actual, expected, 'Should produce JSON report with DOM element for a test file');
 
+    actual = grunt.file.read('reports/test-report-ignore.txt');
+    expected = grunt.file.read('test/expected/test-report-ignore.txt');
+    test.equal(actual, expected, 'Should ignore certain rules');
+
     test.done();
   }
 };

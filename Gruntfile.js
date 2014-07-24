@@ -41,18 +41,14 @@ module.exports = function(grunt) {
      *
      */
     accessibility: {
-      options: {
-        verbose: false
-      },
+      // options: {
+      //   verbose: false
+      // },
       txt: {
         options: {
           accessibilityLevel: 'WCAG2A',
           domElement: false,
           force: true
-          // ignore : [
-          //   'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl'
-          //   'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
-          // ]
         },
         files: [{
             expand: true,
@@ -60,7 +56,7 @@ module.exports = function(grunt) {
             src: ['*.html'],
             dest: 'reports/',
             ext: '-report'
-          }]
+        }]
       },
       txtDom: {
         options: {
@@ -68,12 +64,12 @@ module.exports = function(grunt) {
           force: true
         },
         files: [{
-            expand: true,
-            cwd: 'example/',
-            src: ['*.html'],
-            dest: 'reports/',
-            ext: '-report-dom'
-          }]
+          expand: true,
+          cwd: 'example/',
+          src: ['*.html'],
+          dest: 'reports/',
+          ext: '-report-dom'
+        }]
       },
       json: {
         options: {
@@ -83,12 +79,12 @@ module.exports = function(grunt) {
           force: true
         },
         files: [{
-            expand: true,
-            cwd: 'example/',
-            src: ['*.html'],
-            dest: 'reports/',
-            ext: '-report'
-          }]
+          expand: true,
+          cwd: 'example/',
+          src: ['*.html'],
+          dest: 'reports/',
+          ext: '-report'
+        }]
       },
       jsonDom: {
         options: {
@@ -97,12 +93,27 @@ module.exports = function(grunt) {
           force: true
         },
         files: [{
-            expand: true,
-            cwd: 'example/',
-            src: ['*.html'],
-            dest: 'reports/',
-            ext: '-report-dom'
-          }]
+          expand: true,
+          cwd: 'example/',
+          src: ['*.html'],
+          dest: 'reports/',
+          ext: '-report-dom'
+        }]
+      },
+      ignoreTest: {
+        options: {
+          accessibilityLevel: 'WCAG2A',
+          domElement: false,
+          force: true,
+          ignore : [
+            // 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl',
+            'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
+          ]
+        },
+        files: {
+          'reports/test-report-ignore.txt' : 'example/test.html',
+        }
+
       }
     },
 

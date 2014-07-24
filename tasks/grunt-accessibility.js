@@ -40,10 +40,7 @@ module.exports = function (grunt) {
       var ignore = false;
       var msgSplit = msg.split('|');
 
-      if (msgSplit[0] === 'ERROR' && !options.force) {
-        grunt.fail.warn(msgSplit[1] + ': ' + msgSplit[2]);
-      }
-
+      // If ignore get the hell out
       _.each(options.ignore, function (value, key) {
         if (value === msgSplit[1]) {
           ignore = true;
@@ -52,6 +49,11 @@ module.exports = function (grunt) {
 
       if (ignore) {
         return;
+      }
+
+      // Start messaging
+      if (msgSplit[0] === 'ERROR' && !options.force) {
+        grunt.fail.warn(msgSplit[1] + ': ' + msgSplit[2]);
       }
 
       if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
