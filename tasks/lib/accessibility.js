@@ -9,8 +9,7 @@
 var path      = require('path');
 var fs        = require('fs');
 var _         = require('underscore');
-var Promise   = require('bluebird'),
-var phantom   = require('grunt-lib-phantomjs').init(grunt);
+var Promise   = require('bluebird');
 var asset     = path.join.bind(null, __dirname, '..');
 
 
@@ -20,10 +19,12 @@ function Accessibility(task) {
   this.options  = task.options(Accessibility.Defaults);
   this.basepath = process.cwd();
   this.grunt    = this.task.grunt;
+  this.phantom   = require('grunt-lib-phantomjs').init(this.grunt);
 
-  this.done     = this.async();
   this.log      = '';
   this.logJSON  = {};
+
+
 }
 
 Accessibility.taskName         = 'accessibility';
@@ -48,7 +49,7 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   var msgSplit = msg.split('|');
 
   // If ignore get the hell out
-  _.each(options.ignore, function (value, key) {
+  _.each(this.options.ignore, function (value, key) {
     if (value === msgSplit[1]) {
       ignore = true;
     }
@@ -59,17 +60,17 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   }
 
   // Start messaging
-  if (msgSplit[0] === 'ERROR' && !options.force) {
-    grunt.fail.warn(msgSplit[1] + ': ' + msgSplit[2]);
+  if (msgSplit[0] === 'ERROR' && !this.options.force) {
+    this.grunt.fail.warn(msgSplit[1] + ': ' + msgSplit[2]);
   }
 
   if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
 
-    if (options.outputFormat === 'json') {
+    if (this.options.outputFormat === 'json') {
 
-      logJSON[options.file] = logJSON[options.file] || [];
+      this.logJSON[this.options.file] = this.logJSON[this.options.file] || [];
 
-      var currentLog = logJSON[options.file];
+      var currentLog = this.logJSON[this.options.file];
 
       currentLog.push({
         type: msgSplit[0],
@@ -78,7 +79,7 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
         technique: msgSplit[1].split('.')[4]
       });
 
-      if (options.domElement) {
+      if (this.options.domElement) {
         currentLog[currentLog.length - 1].element = {
           nodeName: msgSplit[3],
           className: msgSplit[4],
@@ -88,15 +89,15 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
 
     } else {
 
-      if (!options.domElement) {
+      if (!this.options.domElement) {
         msg = msgSplit.slice(0, 3).join('|');
       }
 
-      log += msg + '\r\n';
+      this.log += msg + '\r\n';
 
     }
 
-    if (options.verbose) {
+    if (this.options.verbose) {
       var heading = null;
 
       if (msgSplit[0] === 'ERROR') {
@@ -109,16 +110,16 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
 
       heading += ' ' + msgSplit[1];
 
-      grunt.log.writeln(heading);
-      grunt.log.writeln(msgSplit[2]);
+      this.grunt.log.writeln(heading);
+      this.grunt.log.writeln(msgSplit[2]);
     }
 
   } else {
-    if (options.verbose) {
-      grunt.log.writeln(msg);
+    if (this.options.verbose) {
+      this.grunt.log.writeln(msg);
     }
   }
-}
+};
 
 
 
@@ -129,22 +130,22 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
 */
 
 Accessibility.prototype.writeFile = function(msg, trace) {
-  grunt.log.writeln('Report Finished'.cyan);
+  this.grunt.log.writeln('Report Finished'.cyan);
 
-  if (options.outputFormat === 'json') {
-    grunt.file.write(options.filedest + '.json', JSON.stringify(logJSON[options.file]));
+  if (this.options.outputFormat === 'json') {
+    this.grunt.file.write(this.options.filedest + '.json', JSON.stringify(this.logJSON[this.options.file]));
   } else {
-    grunt.file.write(options.filedest , log);
+    this.grunt.file.write(this.options.filedest , this.log);
   }
 
-  grunt.log.writeln('File "' + options.filedest +
-    (options.outputFormat ? '.' + options.outputFormat : '') +
+  this.grunt.log.writeln('File "' + this.options.filedest +
+    (this.options.outputFormat ? '.' + this.options.outputFormat : '') +
     '" created.');
 
-  log = '';
-  logJSON = {};
+  this.log = '';
+  this.logJSON = {};
 
-  phantom.halt();
+  this.phantom.halt();
 
 };
 
@@ -156,19 +157,19 @@ Accessibility.prototype.writeFile = function(msg, trace) {
 *
 */
 
-Accessibility.prototype.failLoad = function(url) = {
-  phantom.halt();
-  grunt.warn('PhantomJS unable to load URL:' + url);
-}
+Accessibility.prototype.failLoad = function(url) {
+  this.phantom.halt();
+  this.grunt.warn('PhantomJS unable to load URL:' + url);
+};
 
-Accessibility.prototype.failTime = function() = {
-  phantom.halt();
-  grunt.warn('PhantomJS timed out.');
-}
+Accessibility.prototype.failTime = function() {
+  this.phantom.halt();
+  this.grunt.warn('PhantomJS timed out.');
+};
 
-Accessibility.prototype.failError = function(message, trace) = {
-  grunt.log.writeln('error: ' + message);
-}
+Accessibility.prototype.failError = function(message, trace) {
+  this.grunt.log.writeln('error: ' + message);
+};
 
 
 
@@ -186,60 +187,46 @@ Accessibility.prototype.run = function() {
   var files = Promise.resolve(this.task.files);
 
 
-  grunt.log.writeln('Running accessibility tests'.cyan);
+  this.grunt.log.writeln('Running accessibility tests'.cyan);
 
   // Built-in error handlers.
-  phantom.on('fail.load',     Accessibility.failLoad);
-  phantom.on('fail.timeout',  Accessibility.failTime);
-  phantom.on('error.onError', Accessibility.failError);
+  // phantom.on('fail.load',     Accessibility.failLoad);
+  // phantom.on('fail.timeout',  Accessibility.failTime);
+  // phantom.on('error.onError', Accessibility.failError);
 
-  // The main events
-  phantom.on('console',       Accessibility.terminalLog);
-  phantom.on('wcaglint.done', Accessibility.writeFile);
+  // // The main events
+  // phantom.on('console',       Accessibility.terminalLog);
+  // phantom.on('wcaglint.done', Accessibility.writeFile);
 
-  return files
-    .bind(this)
-    .map(function(fileMap){
+  // // Start the running thing
+  // var totalFiles  = this.files.length;
+  // var currentFile = 0;
 
-      var srcFile  = fileMap.src[0];
-      var destFile = fileMap.dest;
+  // console.log(this.files);
 
-      return this.inlineCss(srcFile, destFile)
-        .then(this.writeFile)
-    })
-    .catch(function(err){ this.grunt.log.error(err); });
+  // _.each(this.files, function(file) {
 
+  //   var filename = path.basename(file.src, ['.html']);
 
+  //   this.options.filedest = file.dest;
+  //   this.options.file = filename;
 
-  // Start the running thing
-  var totalFiles  = this.files.length;
-  var currentFile = 0;
+  //   console.log(file.src);
 
-  console.log(this.files);
+  //   phantom.spawn(file.src[0], {
+  //     // Additional PhantomJS options.
+  //     options: this.options,
+  //     // Complete the task when done.
+  //     done: function (err) {
 
-  _.each(this.files, function(file) {
+  //       currentFile ++;
 
-    var filename = path.basename(file.src, ['.html']);
+  //       if (currentFile === totalFiles || err) {
+  //       }
 
-    options.filedest = file.dest;
-    options.file = filename;
-
-    console.log(file.src);
-
-    phantom.spawn(file.src[0], {
-      // Additional PhantomJS options.
-      options: options,
-      // Complete the task when done.
-      done: function (err) {
-
-        currentFile ++;
-
-        if (currentFile === totalFiles || err) {
-        }
-
-      }
-    });
-  });
+  //     }
+  //   });
+  // });
 
   // grunt.util.async.forEachSeries(this.files, function (file, next) {
 
@@ -258,7 +245,7 @@ Accessibility.prototype.run = function() {
   // });
 };
 
-Accessibility.prototype.registerWithGrunt = function(grunt) {
+Accessibility.registerWithGrunt = function(grunt) {
 
   // Please see the grunt documentation for more information regarding task and
   // helper creation: https://github.com/gruntjs/grunt/blob/master/docs/toc.md
@@ -273,7 +260,7 @@ Accessibility.prototype.registerWithGrunt = function(grunt) {
     var done = this.async();
     var task = new Accessibility(this);
 
-    task.run().done(done);
+    task.run();
 
   });
 

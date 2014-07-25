@@ -28,6 +28,16 @@ module.exports = function(grunt) {
       }
     },
 
+    watch: {
+      scripts: {
+        files: ['tasks/**/*.js'],
+        tasks: ['jshint', 'accessibility', 'nodeunit'],
+        options: {
+          spawn: false
+        }
+      }
+    },
+
     /* Configuration to be run (and then tested).
      *
      * accessibilityLevel: Levels are 'WCAG2A', 'WCAG2AA', 'WCAG2AAA', 'Section508'
@@ -128,6 +138,7 @@ module.exports = function(grunt) {
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
@@ -137,7 +148,7 @@ module.exports = function(grunt) {
    */
   grunt.registerTask('build', ['uglify']);
   grunt.registerTask('node', ['nodeunit', 'clean']);
-  grunt.registerTask('test', ['jshint', 'accessibility', 'node']);
+  grunt.registerTask('test', ['jshint', 'accessibility', 'nodeunit']);
 
   // By default, lint and run all tests.
   return grunt.registerTask('default', ['test', 'build']);
