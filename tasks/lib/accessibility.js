@@ -141,8 +141,6 @@ Accessibility.prototype.writeFile = function(msg, trace) {
 
   grunt.log.writeln('Report Finished'.cyan);
 
-  console.log(_that.options);
-
   if (options.outputFormat === 'json') {
     grunt.file.write(options.filedest + '.json', JSON.stringify(_that.logJSON[options.file]));
   } else {
@@ -192,7 +190,7 @@ Accessibility.prototype.failError = function(message, trace) {
 *
 */
 
-Accessibility.prototype.run = function() {
+Accessibility.prototype.run = function(done) {
 
   var files   = Promise.resolve(this.task.files);
   var phantom = this.phantom;
@@ -222,6 +220,7 @@ Accessibility.prototype.run = function() {
         options: this.options,
         // Complete the task when done.
         done: function (err) {
+          done();
           return (err || true);
         }
       });
@@ -246,7 +245,7 @@ Accessibility.registerWithGrunt = function(grunt) {
     var done = this.async();
     var task = new Accessibility(this);
 
-    task.run();
+    task.run(done);
 
   });
 
