@@ -38,7 +38,7 @@ module.exports = function(grunt) {
         }
       },
       grunt: {
-        files: ['Gruntfile.js']
+        files: ['Gruntfile.js', 'tasks/lib/accessibility.js']
       }
     },
 
