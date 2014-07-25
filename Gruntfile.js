@@ -3,6 +3,7 @@ module.exports = function(grunt) {
     jshint: {
       all: [
         'tasks/*.js',
+        'tasks/lib/*.js',
         '<%= nodeunit.tests %>'
       ],
       options: {
@@ -35,6 +36,9 @@ module.exports = function(grunt) {
         options: {
           spawn: false
         }
+      },
+      grunt: {
+        files: ['Gruntfile.js']
       }
     },
 

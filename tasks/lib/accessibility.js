@@ -12,6 +12,7 @@ var _         = require('underscore');
 var Promise   = require('bluebird');
 var asset     = path.join.bind(null, __dirname, '..');
 
+var _that;
 
 function Accessibility(task) {
 
@@ -19,18 +20,19 @@ function Accessibility(task) {
   this.options  = task.options(Accessibility.Defaults);
   this.basepath = process.cwd();
   this.grunt    = this.task.grunt;
-  this.phantom   = require('grunt-lib-phantomjs').init(this.grunt);
+  this.phantom  = require('grunt-lib-phantomjs').init(this.grunt);
 
   this.log      = '';
   this.logJSON  = {};
 
+  _that = this;
 
 }
 
 Accessibility.taskName         = 'accessibility';
 Accessibility.taskDescription  = 'Use HTML codesniffer to grade accessibility';
 Accessibility.Defaults         = {
-  phantomScript: asset('phantomjs/bridge.js'),
+  phantomScript: asset('../phantomjs/bridge.js'),
   urls: [],
   domElement: true,
   verbose: true
@@ -48,8 +50,12 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   var ignore = false;
   var msgSplit = msg.split('|');
 
+  var grunt   = _that.grunt;
+  var options = _that.options;
+
+  console.log(_that);
   // If ignore get the hell out
-  _.each(this.options.ignore, function (value, key) {
+  _.each(options.ignore, function (value, key) {
     if (value === msgSplit[1]) {
       ignore = true;
     }
@@ -60,17 +66,17 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   }
 
   // Start messaging
-  if (msgSplit[0] === 'ERROR' && !this.options.force) {
-    this.grunt.fail.warn(msgSplit[1] + ': ' + msgSplit[2]);
+  if (msgSplit[0] === 'ERROR' && !options.force) {
+    grunt.fail.warn(msgSplit[1] + ': ' + msgSplit[2]);
   }
 
   if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
 
-    if (this.options.outputFormat === 'json') {
+    if (options.outputFormat === 'json') {
 
-      this.logJSON[this.options.file] = this.logJSON[this.options.file] || [];
+      _that.logJSON[options.file] = _that.logJSON[options.file] || [];
 
-      var currentLog = this.logJSON[this.options.file];
+      var currentLog = _that.logJSON[options.file];
 
       currentLog.push({
         type: msgSplit[0],
@@ -79,7 +85,7 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
         technique: msgSplit[1].split('.')[4]
       });
 
-      if (this.options.domElement) {
+      if (options.domElement) {
         currentLog[currentLog.length - 1].element = {
           nodeName: msgSplit[3],
           className: msgSplit[4],
@@ -89,15 +95,15 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
 
     } else {
 
-      if (!this.options.domElement) {
+      if (!options.domElement) {
         msg = msgSplit.slice(0, 3).join('|');
       }
 
-      this.log += msg + '\r\n';
+      _that.log += msg + '\r\n';
 
     }
 
-    if (this.options.verbose) {
+    if (options.verbose) {
       var heading = null;
 
       if (msgSplit[0] === 'ERROR') {
@@ -110,13 +116,13 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
 
       heading += ' ' + msgSplit[1];
 
-      this.grunt.log.writeln(heading);
-      this.grunt.log.writeln(msgSplit[2]);
+      grunt.log.writeln(heading);
+      grunt.log.writeln(msgSplit[2]);
     }
 
   } else {
-    if (this.options.verbose) {
-      this.grunt.log.writeln(msg);
+    if (options.verbose) {
+      grunt.log.writeln(msg);
     }
   }
 };
@@ -184,25 +190,45 @@ Accessibility.prototype.failError = function(message, trace) {
 
 Accessibility.prototype.run = function() {
 
-  var files = Promise.resolve(this.task.files);
+  var files   = Promise.resolve(this.task.files);
+  var phantom = this.phantom;
 
 
   this.grunt.log.writeln('Running accessibility tests'.cyan);
 
   // Built-in error handlers.
-  // phantom.on('fail.load',     Accessibility.failLoad);
-  // phantom.on('fail.timeout',  Accessibility.failTime);
-  // phantom.on('error.onError', Accessibility.failError);
+  phantom.on('fail.load',     this.failLoad);
+  phantom.on('fail.timeout',  this.failTime);
+  phantom.on('error.onError', this.failError);
 
-  // // The main events
-  // phantom.on('console',       Accessibility.terminalLog);
-  // phantom.on('wcaglint.done', Accessibility.writeFile);
+  // The main events
+  phantom.on('console',       this.terminalLog);
+  phantom.on('wcaglint.done', this.writeFile);
+
+  console.log(files);
+
+  return files
+    .bind(this)
+    .map(function(fileMap) {
+
+      var srcFile  = fileMap.src[0];
+      var destFile = fileMap.dest;
+
+      return phantom.spawn(srcFile, {
+        // Additional PhantomJS options.
+        options: this.options,
+        // Complete the task when done.
+        done: function (err) {
+          return err;
+        }
+      });
+
+    })
+    .catch(function(err){ this.grunt.log.error(err); });
 
   // // Start the running thing
   // var totalFiles  = this.files.length;
   // var currentFile = 0;
-
-  // console.log(this.files);
 
   // _.each(this.files, function(file) {
 
