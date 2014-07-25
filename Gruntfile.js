@@ -80,7 +80,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'example/',
-          src: ['derp.html'],
+          src: ['test.html'],
           dest: 'reports/',
           ext: '-report-dom'
         }]

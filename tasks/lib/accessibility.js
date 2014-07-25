@@ -166,13 +166,14 @@ Accessibility.prototype.writeFile = function(msg, trace) {
 */
 
 Accessibility.prototype.failLoad = function(url) {
+  _that.grunt.fail.fatal('PhantomJS unable to load URL:' + url);
   _that.phantom.halt();
-  _that.grunt.warn('PhantomJS unable to load URL:' + url);
+  //_that.done();
 };
 
 Accessibility.prototype.failTime = function() {
-  _that.phantom.halt();
   _that.grunt.warn('PhantomJS timed out.');
+  _that.phantom.halt();
 };
 
 Accessibility.prototype.failError = function(message, trace) {
@@ -194,6 +195,8 @@ Accessibility.prototype.run = function(done) {
 
   var files   = Promise.resolve(this.task.files);
   var phantom = this.phantom;
+
+  //_that.done = done;
 
   this.grunt.log.writeln('Running accessibility tests'.cyan);
 
