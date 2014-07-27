@@ -47,7 +47,7 @@ Accessibility.Defaults         = {
 */
 
 Accessibility.prototype.terminalLog = function(msg, trace) {
-  var ignore = false;
+  var ignore   = false;
   var msgSplit = msg.split('|');
 
   var grunt   = _that.grunt;
@@ -92,33 +92,61 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
 
     }
 
-    if (options.verbose) {
-      var heading = null;
-
-      switch (msgSplit[0]) {
-        case 'ERROR':
-            heading = msgSplit[0].red;
-        break;
-        case 'NOTICE':
-            heading = msgSplit[0].blue;
-        break;
-        default:
-            heading = msgSplit[0].yellow;
-        break;
-      }
-
-      heading += ' ' + msgSplit[1];
-
-      grunt.log.writeln(heading);
-      grunt.log.writeln(msgSplit[2]);
-    }
+    _that.logger(msgSplit);
 
   } else {
-    if (options.verbose) {
-      grunt.log.writeln(msg);
-    }
+
+    _that.logger(msg);
+
   }
 };
+
+/**
+* Console logger
+*
+*
+*/
+
+
+Accessibility.prototype.logger = function(msgSplit) {
+
+  var options       = _that.options;
+  var errorMessage  = _.isArray(msgSplit);
+
+  // If options verbose if false gtfo
+  if (!options.verbose) {
+    return;
+  }
+
+  // If its not an error message, log and return
+  if (!errorMessage) {
+    _that.grunt.log.writeln(msgSplit);
+
+    return;
+  }
+
+  // Start logger
+  var heading;
+
+  switch (msgSplit[0]) {
+    case 'ERROR':
+        heading = msgSplit[0].red;
+    break;
+    case 'NOTICE':
+        heading = msgSplit[0].blue;
+    break;
+    default:
+        heading = msgSplit[0].yellow;
+    break;
+  }
+
+  heading += ' ' + msgSplit[1];
+
+  _that.grunt.log.subhead(heading);
+  _that.grunt.log.oklns(msgSplit[2].grey);
+
+};
+
 
 
 /**
@@ -164,7 +192,7 @@ Accessibility.prototype.writeFile = function(msg, trace) {
   var grunt   = _that.grunt;
   var options = _that.options;
 
-  grunt.log.writeln('Report Finished'.cyan);
+  grunt.log.subhead('Report Finished'.cyan);
 
   if (options.outputFormat === 'json') {
     grunt.file.write(options.filedest + '.json', JSON.stringify(_that.logJSON[options.file]));
@@ -193,7 +221,6 @@ Accessibility.prototype.writeFile = function(msg, trace) {
 Accessibility.prototype.failLoad = function(url) {
   _that.grunt.fail.fatal('PhantomJS unable to load URL:' + url);
   _that.phantom.halt();
-  //_that.done();
 };
 
 Accessibility.prototype.failTime = function() {
@@ -220,8 +247,6 @@ Accessibility.prototype.run = function(done) {
 
   var files   = Promise.resolve(this.task.files);
   var phantom = this.phantom;
-
-  //_that.done = done;
 
   this.grunt.log.writeln('Running accessibility tests'.cyan);
 
