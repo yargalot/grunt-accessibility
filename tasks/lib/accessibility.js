@@ -130,13 +130,13 @@ Accessibility.prototype.logger = function(msgSplit) {
 
   switch (msgSplit[0]) {
     case 'ERROR':
-        heading = msgSplit[0].red;
+        heading = msgSplit[0].red.bold;
     break;
     case 'NOTICE':
-        heading = msgSplit[0].blue;
+        heading = msgSplit[0].blue.bold;
     break;
     default:
-        heading = msgSplit[0].yellow;
+        heading = msgSplit[0].yellow.bold;
     break;
   }
 
