@@ -64,33 +64,23 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
     return;
   }
 
-  // Start messaging
+  // Start messaging, If options force is false then fail the build
   if (msgSplit[0] === 'ERROR' && !options.force) {
     grunt.fail.warn(msgSplit[1] + ': ' + msgSplit[2]);
   }
 
+
+  // Start the Logging
   if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
 
     if (options.outputFormat === 'json') {
 
-      _that.logJSON[options.file] = _that.logJSON[options.file] || [];
+      var jsonLog = _that.logJSON[options.file];
 
-      var currentLog = _that.logJSON[options.file];
+      jsonLog = jsonLog || [];
+      jsonLog = jsonLog.concat(_that.outputJson(msgSplit));
 
-      currentLog.push({
-        type: msgSplit[0],
-        msg: msgSplit[2],
-        sc: msgSplit[1].split('.')[3],
-        technique: msgSplit[1].split('.')[4]
-      });
-
-      if (options.domElement) {
-        currentLog[currentLog.length - 1].element = {
-          nodeName: msgSplit[3],
-          className: msgSplit[4],
-          id: msgSplit[5]
-        };
-      }
+      _that.logJSON[options.file] = jsonLog;
 
     } else {
 
@@ -105,12 +95,16 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
     if (options.verbose) {
       var heading = null;
 
-      if (msgSplit[0] === 'ERROR') {
-        heading = msgSplit[0].red;
-      } else if (msgSplit[0] === 'NOTICE') {
-        heading = msgSplit[0].blue;
-      } else if (msgSplit[0] === 'WARNING') {
-        heading = msgSplit[0].yellow;
+      switch (msgSplit[0]) {
+        case 'ERROR':
+            heading = msgSplit[0].red;
+        break;
+        case 'NOTICE':
+            heading = msgSplit[0].blue;
+        break;
+        default:
+            heading = msgSplit[0].yellow;
+        break;
       }
 
       heading += ' ' + msgSplit[1];
@@ -126,6 +120,37 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   }
 };
 
+
+/**
+* Json file format
+*
+*
+*/
+
+
+Accessibility.prototype.outputJson = function(msgSplit) {
+
+  var options     = _that.options;
+  var currentLog  = [];
+
+  currentLog.push({
+    type: msgSplit[0],
+    msg: msgSplit[2],
+    sc: msgSplit[1].split('.')[3],
+    technique: msgSplit[1].split('.')[4]
+  });
+
+  if (options.domElement) {
+    currentLog[currentLog.length - 1].element = {
+      nodeName: msgSplit[3],
+      className: msgSplit[4],
+      id: msgSplit[5]
+    };
+  }
+
+  return currentLog;
+
+};
 
 
 /**

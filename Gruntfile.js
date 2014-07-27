@@ -151,8 +151,8 @@ module.exports = function(grunt) {
    * plugin's task(s), then test the result.
    */
   grunt.registerTask('build', ['uglify']);
-  grunt.registerTask('node', ['nodeunit', 'clean']);
-  grunt.registerTask('test', ['jshint', 'accessibility', 'nodeunit']);
+  grunt.registerTask('node',  ['nodeunit', 'clean']);
+  grunt.registerTask('test',  ['jshint', 'accessibility', 'nodeunit']);
 
   // By default, lint and run all tests.
   return grunt.registerTask('default', ['test', 'build']);
