@@ -20,10 +20,10 @@ module.exports = function(grunt) {
     uglify: {
       dist: {
         files: {
-          'tasks/HTML_CodeSniffer/dist/HTMLCS.min.js': [
-            'tasks/HTML_CodeSniffer/Standards/**/*.js',
-            'tasks/HTML_CodeSniffer/HTMLCS.js',
-            'tasks/HTML_CodeSniffer/PhantomJS/runner.js'
+          'tasks/lib/HTML_CodeSniffer/dist/HTMLCS.min.js': [
+            'tasks/lib/HTML_CodeSniffer/Standards/**/*.js',
+            'tasks/lib/HTML_CodeSniffer/HTMLCS.js',
+            'tasks/lib/HTML_CodeSniffer/PhantomJS/runner.js'
           ]
         }
       }
@@ -31,14 +31,14 @@ module.exports = function(grunt) {
 
     watch: {
       scripts: {
-        files: ['tasks/**/*.js'],
+        files: ['tasks/**/*.js', '<%= nodeunit.tests %>'],
         tasks: ['jshint', 'accessibility', 'nodeunit'],
         options: {
           spawn: false
         }
       },
       grunt: {
-        files: ['Gruntfile.js', 'tasks/lib/accessibility.js']
+        files: ['Gruntfile.js']
       }
     },
 

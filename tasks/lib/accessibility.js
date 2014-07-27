@@ -192,17 +192,20 @@ Accessibility.prototype.writeFile = function(msg, trace) {
   var grunt   = _that.grunt;
   var options = _that.options;
 
-  grunt.log.subhead('Report Finished'.cyan);
-
+  // Write the files
   if (options.outputFormat === 'json') {
     grunt.file.write(options.filedest + '.json', JSON.stringify(_that.logJSON[options.file]));
   } else {
     grunt.file.write(options.filedest , _that.log);
   }
 
+  // Write messages to console
+  grunt.log.subhead('Report Finished'.cyan);
   grunt.log.writeln('File "' + options.filedest +
     (options.outputFormat ? '.' + options.outputFormat : '') + '" created.');
 
+
+  // Reset the values for next run
   _that.log = '';
   _that.logJSON = {};
 
