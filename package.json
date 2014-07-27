@@ -1,7 +1,7 @@
 {
   "name": "grunt-accessibility",
   "description": "Grade your sites accessibility and generate a report from different WCAG levels",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "homepage": "https://github.com/yargalot/grunt-accessibility",
   "author": "Steven John Miller (http://www.stevenjohnmiller.com/)",
   "repository": {
@@ -42,7 +42,6 @@
   },
   "dependencies": {
     "grunt": "~0.4.4",
-    "grunt-contrib-clean": "~0.5.0",
     "grunt-lib-phantomjs": "~0.6.0",
     "underscore": "~1.6.0",
     "bluebird": "~2.2.2"
