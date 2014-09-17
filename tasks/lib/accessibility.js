@@ -49,6 +49,7 @@ Accessibility.Defaults         = {
 */
 
 Accessibility.prototype.terminalLog = function(msg, trace) {
+
   var ignore   = false;
   var msgSplit = msg.split('|');
 
@@ -144,7 +145,8 @@ Accessibility.prototype.logger = function(msgSplit) {
 
   _that.grunt.log.subhead(heading);
   _that.grunt.log.oklns(msgSplit[2].grey);
-  _that.grunt.log.oklns('Element: ' + msgSplit[3]);
+  _that.grunt.log.oklns('--------------------'.grey);
+  _that.grunt.log.oklns(msgSplit[3].grey);
 
 
   if (msgSplit[0] === 'ERROR' && !options.force) {

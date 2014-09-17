@@ -1,26 +1,26 @@
 <!doctype html>
 <html>
-<head>
+  <head>
 
-  <script>
+    <script>
 
-  // Send messages to the parent PhantomJS process via alert! Good times!!
-  function sendMessage() {
-    var args = [].slice.call(arguments);
-    alert(JSON.stringify(args));
-  }
+    // Send messages to the parent PhantomJS process via alert! Good times!!
+    function sendMessage() {
+      var args = [].slice.call(arguments);
+      alert(JSON.stringify(args));
+    }
 
-  sendMessage('mytask.ok', 'Something worked.');
-  sendMessage('mytask.error', 'Something failed.');
-  sendMessage('mytask.done');
+    sendMessage('mytask.ok', 'Something worked.');
+    sendMessage('mytask.error', 'Something failed.');
+    sendMessage('mytask.done');
 
-  </script>
+    </script>
 
-</head>
-<body>
-  <a id="herpDerp" class="test Element" href="test">Test</a>
-  <a href="test">Test</a>
-  <a href="test">Test</a>
+  </head>
+  <body>
+    <a id="herpDerp" class="test Element" href="test">Test</a>
+    <a href="test">Test</a>
+    <a href="test">Test</a>
 
-</body>
+  </body>
 </html>

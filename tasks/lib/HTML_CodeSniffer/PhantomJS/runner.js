@@ -8,6 +8,14 @@ var HTMLCS_RUNNER = new function() {
             var length   = messages.length;
 
             for (var i = 0; i < length; i++) {
+
+                // Print out actual element to string
+                var tmp = document.createElement("div");
+                tmp.appendChild(messages[i].element);
+
+                messages[i].elementString = tmp.innerHTML;
+
+                // Output to messages
                 self.output(messages[i]);
             }
 
@@ -33,9 +41,8 @@ var HTMLCS_RUNNER = new function() {
             break;
         }
 
+        console.log(typeName + '|' + msg.code + '|' + msg.msg + '|' + msg.elementString + '|' + msg.element.className + '|' + msg.element.id);
 
-        console.log(typeName + '|' + msg.code + '|' + msg.msg + '|' + msg.element.nodeName.toLowerCase() + '|' + msg.element.className + '|' + msg.element.id);
-        console.log(msg.element.toString());
     };
 
 };
