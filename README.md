@@ -77,8 +77,7 @@ You can ignore rules by placing them in an array outlined below
   }
 ```
 
-
-Text and JSON format output, default is current text format
+Text or JSON format output
 
 - 'txt' will output text files
 - 'json' will output .json files

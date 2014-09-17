@@ -35,7 +35,9 @@ Accessibility.Defaults         = {
   phantomScript: asset('../phantomjs/bridge.js'),
   urls: [],
   domElement: true,
-  verbose: true
+  verbose: true,
+  outputFormat: false,
+  force: false
 };
 
 
@@ -64,32 +66,29 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
     return;
   }
 
-  // Start messaging, If options force is false then fail the build
-  if (msgSplit[0] === 'ERROR' && !options.force) {
-    grunt.fail.warn(msgSplit[1] + ': ' + msgSplit[2]);
-  }
-
-
   // Start the Logging
   if (msgSplit[0] === 'ERROR' || msgSplit[0] === 'NOTICE' || msgSplit[0] === 'WARNING') {
 
-    if (options.outputFormat === 'json') {
+    switch (options.outputFormat) {
 
-      var jsonLog = _that.logJSON[options.file];
+      case 'json':
+        var jsonLog = _that.logJSON[options.file];
 
-      jsonLog = jsonLog || [];
-      jsonLog = jsonLog.concat(_that.outputJson(msgSplit));
+        jsonLog = jsonLog || [];
+        jsonLog = jsonLog.concat(_that.outputJson(msgSplit));
 
-      _that.logJSON[options.file] = jsonLog;
+        _that.logJSON[options.file] = jsonLog;
 
-    } else {
+      break;
 
-      if (!options.domElement) {
-        msg = msgSplit.slice(0, 3).join('|');
-      }
+      case 'txt':
+        if (!options.domElement) {
+          msg = msgSplit.slice(0, 3).join('|');
+        }
 
-      _that.log += msg + '\r\n';
+        _that.log += msg + '\r\n';
 
+      break;
     }
 
     _that.logger(msgSplit);
@@ -101,12 +100,13 @@ Accessibility.prototype.terminalLog = function(msg, trace) {
   }
 };
 
+
+
 /**
 * Console logger
 *
 *
 */
-
 
 Accessibility.prototype.logger = function(msgSplit) {
 
@@ -118,10 +118,10 @@ Accessibility.prototype.logger = function(msgSplit) {
     return;
   }
 
-  // If its not an error message, log and return
-  if (!errorMessage) {
-    _that.grunt.log.writeln(msgSplit);
+  // console.log(msgSplit);
 
+  // If its not an error message, return out of it
+  if (!errorMessage) {
     return;
   }
 
@@ -144,6 +144,14 @@ Accessibility.prototype.logger = function(msgSplit) {
 
   _that.grunt.log.subhead(heading);
   _that.grunt.log.oklns(msgSplit[2].grey);
+  _that.grunt.log.oklns('Element: ' + msgSplit[3]);
+
+
+  if (msgSplit[0] === 'ERROR' && !options.force) {
+    _that.grunt.fail.warn('Task ' + _that.grunt.task.current.nameArgs +  ' failed');
+  }
+
+  // console.log(msgSplit);
 
 };
 
@@ -154,7 +162,6 @@ Accessibility.prototype.logger = function(msgSplit) {
 *
 *
 */
-
 
 Accessibility.prototype.outputJson = function(msgSplit) {
 
@@ -192,18 +199,27 @@ Accessibility.prototype.writeFile = function(msg, trace) {
   var grunt   = _that.grunt;
   var options = _that.options;
 
-  // Write the files
-  if (options.outputFormat === 'json') {
-    grunt.file.write(options.filedest + '.json', JSON.stringify(_that.logJSON[options.file]));
-  } else {
-    grunt.file.write(options.filedest , _that.log);
-  }
 
   // Write messages to console
-  grunt.log.subhead('Report Finished'.cyan);
-  grunt.log.writeln('File "' + options.filedest +
-    (options.outputFormat ? '.' + options.outputFormat : '') + '" created.');
+  function logFinishedMesage() {
 
+    grunt.log.subhead('Report Finished'.cyan);
+    grunt.log.writeln('File "' + options.filedest +
+      (options.outputFormat ? '.' + options.outputFormat : '') + '" created.');
+  }
+
+  // Write the files
+  switch (options.outputFormat) {
+    case 'json':
+      grunt.file.write(options.filedest + '.json', JSON.stringify(_that.logJSON[options.file]));
+      logFinishedMesage();
+    break;
+
+    case 'txt':
+      grunt.file.write(options.filedest , _that.log);
+      logFinishedMesage();
+    break;
+  }
 
   // Reset the values for next run
   _that.log = '';

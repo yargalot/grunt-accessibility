@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['tasks/**/*.js', '<%= nodeunit.tests %>'],
-        tasks: ['jshint', 'accessibility', 'nodeunit'],
+        tasks: ['jshint', 'accessibility:noOutput'],
         options: {
           spawn: false
         }
@@ -61,6 +61,7 @@ module.exports = function(grunt) {
       txt: {
         options: {
           accessibilityLevel: 'WCAG2A',
+          outputFormat: 'txt',
           domElement: false,
           force: true
         },
@@ -75,6 +76,7 @@ module.exports = function(grunt) {
       txtDom: {
         options: {
           accessibilityLevel: 'WCAG2A',
+          outputFormat: 'txt',
           force: true
         },
         files: [{
@@ -123,6 +125,17 @@ module.exports = function(grunt) {
             // 'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl',
             'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
           ]
+        },
+        files: {
+          'reports/test-report-ignore.txt' : 'example/test.html',
+        }
+
+      },
+      noOutput: {
+        options: {
+          accessibilityLevel: 'WCAG2A',
+          domElement: true,
+          force: true
         },
         files: {
           'reports/test-report-ignore.txt' : 'example/test.html',

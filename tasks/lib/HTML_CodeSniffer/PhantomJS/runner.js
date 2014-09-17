@@ -6,6 +6,7 @@ var HTMLCS_RUNNER = new function() {
         HTMLCS.process(standard, document, function() {
             var messages = HTMLCS.getMessages();
             var length   = messages.length;
+
             for (var i = 0; i < length; i++) {
                 self.output(messages[i]);
             }
@@ -16,6 +17,7 @@ var HTMLCS_RUNNER = new function() {
 
     this.output = function(msg) {
         // Simple output for now.
+
         var typeName = 'UNKNOWN';
         switch (msg.type) {
             case HTMLCS.ERROR:
@@ -29,9 +31,11 @@ var HTMLCS_RUNNER = new function() {
             case HTMLCS.NOTICE:
                 typeName = 'NOTICE';
             break;
-        }//end switch
+        }
+
 
         console.log(typeName + '|' + msg.code + '|' + msg.msg + '|' + msg.element.nodeName.toLowerCase() + '|' + msg.element.className + '|' + msg.element.id);
+        console.log(msg.element.toString());
     };
 
 };
