@@ -146,6 +146,7 @@ Accessibility.prototype.logger = function(msgSplit) {
   _that.grunt.log.subhead(heading);
   _that.grunt.log.oklns(msgSplit[2].grey);
   _that.grunt.log.oklns('--------------------'.grey);
+  _that.grunt.log.oklns(msgSplit[6]);
   _that.grunt.log.oklns(msgSplit[3].grey);
 
 
