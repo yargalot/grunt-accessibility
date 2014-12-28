@@ -42,6 +42,12 @@ module.exports = function(grunt) {
       }
     },
 
+    debug: {
+      options: {
+        open: true // do not open node-inspector in Chrome automatically
+      }
+    },
+
     /* Configuration to be run (and then tested).
      *
      * accessibilityLevel: Levels are 'WCAG2A', 'WCAG2AA', 'WCAG2AAA', 'Section508'
@@ -154,6 +160,7 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // These plugins provide necessary tasks.
+  grunt.loadNpmTasks('grunt-debug-task');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
