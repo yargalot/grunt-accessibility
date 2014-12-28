@@ -2,25 +2,16 @@
 <html>
   <head>
 
-    <script>
-
-    // Send messages to the parent PhantomJS process via alert! Good times!!
-    function sendMessage() {
-      var args = [].slice.call(arguments);
-      alert(JSON.stringify(args));
-    }
-
-    sendMessage('mytask.ok', 'Something worked.');
-    sendMessage('mytask.error', 'Something failed.');
-    sendMessage('mytask.done');
-
-    </script>
 
   </head>
   <body>
+    <h1>Derp</h1>
     <a id="herpDerp" class="test Element" href="test">Test</a>
     <a href="test">Test</a>
     <a href="test">Test</a>
+
+
+    <script src="../tasks/lib/HTML_CodeSniffer/dist/HTMLCS.min.js"></script>
 
   </body>
 </html>

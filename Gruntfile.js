@@ -18,7 +18,11 @@ module.exports = function(grunt) {
 
     // Combine js into a dist directory
     uglify: {
-      dist: {
+      dev: {
+        options: {
+          beautify : true,
+          mangle: false
+        },
         files: {
           'tasks/lib/HTML_CodeSniffer/dist/HTMLCS.min.js': [
             'tasks/lib/HTML_CodeSniffer/Standards/**/*.js',
@@ -26,13 +30,16 @@ module.exports = function(grunt) {
             'tasks/lib/HTML_CodeSniffer/PhantomJS/runner.js'
           ]
         }
+      },
+      dist: {
+        files: '<%= uglify.dev.files %>'
       }
     },
 
     watch: {
       scripts: {
         files: ['tasks/**/*.js', '<%= nodeunit.tests %>'],
-        tasks: ['jshint', 'accessibility:noOutput'],
+        tasks: ['jshint', 'uglify:dev', 'accessibility:noOutput'],
         options: {
           spawn: false
         }

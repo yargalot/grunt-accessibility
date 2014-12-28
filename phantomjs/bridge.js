@@ -27,6 +27,8 @@ var page = require('webpage').create();
 // Relay console logging messages.
 page.onConsoleMessage = function (message) {
 
+  console.log('test');
+
     if (message === 'done') {
         sendMessage('wcaglint.done', options);
     } else {
@@ -78,4 +80,3 @@ page.open(url, function (status) {
 
     phantom.exit();
 });
-

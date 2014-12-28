@@ -15,6 +15,8 @@ var HTMLCS_RUNNER = new function() {
 
                 messages[i].elementString = tmp.innerHTML;
 
+
+
                 // Output to messages
                 self.output(messages[i]);
             }
