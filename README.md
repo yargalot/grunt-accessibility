@@ -1,4 +1,4 @@
-# Grunt Accessibility
+# Grunt Accessibility v2.0.0
 
 Grade your sites accessibility using different levels of the WCAG guidelines
 
@@ -25,13 +25,7 @@ accessibility: {
     accessibilityLevel: 'WCAG2A'
   },
   test : {
-    files: [{
-      expand  : true,
-      cwd     : 'example/',
-      src     : ['*.html'],
-      dest    : 'reports/',
-      ext     : '-report.txt'
-    }]
+    src: ['example/test.html']
   }
 }
 ```
@@ -43,6 +37,7 @@ You can link to the files you wish to lint using the grunt api. The result will 
 You can pass some options
 
 ### Accessibility Level
+
 ```accessibilityLevel``` is a string
 
 ```javascript
@@ -52,6 +47,28 @@ You can pass some options
 ```
 
 Levels are ```WCAG2A```, ```WCAG2AA```, and ```WCAG2AAA```
+
+### Accessibilityrc
+
+```accessibilityrc``` is a boolean
+
+
+```javascript
+options: {
+  accessibilityrc: true
+}
+```
+
+Set to true to access a .accessibilityrc file in your project which should be layed out as:
+
+```javascript
+{
+  "ignore": [
+  "WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl",
+  "WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2"
+  ]
+}
+```
 
 
 ### Ignore
@@ -128,6 +145,12 @@ This is built of [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
+
+### [2.0.0](https://github.com/yargalot/grunt-accessibility/issues?q=milestone%3A2.0+is%3Aclosed)
+- Add output format to generate reports
+- Add accessibiltyrc option
+- Add line and column number to issues
+- Lots of other tweaks and fixes
 
 ### [1.1.0](https://github.com/yargalot/grunt-accessibility/issues?milestone=3&page=1&state=closed)
 - Add JSON report option
