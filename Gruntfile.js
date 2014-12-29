@@ -74,15 +74,13 @@ module.exports = function(grunt) {
       txt: {
         options: {
           accessibilityLevel: 'WCAG2A',
-          outputFormat: 'txt',
-          domElement: false,
-          force: true
+          outputFormat: 'txt'
         },
         files: [{
             expand: true,
-            cwd: 'example/',
-            src: ['test.html'],
-            dest: 'reports/',
+            force: true,
+            src: ['example/test.html'],
+            dest: '',
             ext: '-report'
         }]
       },
@@ -147,13 +145,9 @@ module.exports = function(grunt) {
       noOutput: {
         options: {
           accessibilityLevel: 'WCAG2A',
-          domElement: true,
           force: true
         },
-        files: {
-          'reports/test-report-ignore.txt' : 'example/test.html',
-        }
-
+        src: ['example/test.html']
       }
     },
 

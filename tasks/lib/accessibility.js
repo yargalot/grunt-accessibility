@@ -151,7 +151,7 @@ Accessibility.prototype.logger = function(msgSplit) {
 
 
   if (msgSplit[0] === 'ERROR' && !options.force) {
-    _that.grunt.fail.warn('Task ' + _that.grunt.task.current.nameArgs +  ' failed');
+    // _that.grunt.fail.warn('Task ' + _that.grunt.task.current.nameArgs +  ' failed');
   }
 
   // console.log(msgSplit);
@@ -281,10 +281,10 @@ Accessibility.prototype.run = function(done) {
   phantom.on('console',       this.terminalLog);
   phantom.on('wcaglint.done', this.writeFile);
 
+
   return files
     .bind(this)
     .map(function(fileMap) {
-
       var srcFile  = fileMap.src[0];
       var destFile = fileMap.dest;
 
