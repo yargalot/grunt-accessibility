@@ -21,6 +21,7 @@ function Accessibility(task) {
   this.basepath = process.cwd();
   this.grunt    = this.task.grunt;
   this.phantom  = require('grunt-lib-phantomjs').init(this.grunt);
+  this.failTask = false;
 
   this.log      = '';
   this.logJSON  = {};
@@ -132,6 +133,7 @@ Accessibility.prototype.logger = function(msgSplit) {
   switch (msgSplit[0]) {
     case 'ERROR':
         heading = msgSplit[0].red.bold;
+        _that.failTask = true;
     break;
     case 'NOTICE':
         heading = msgSplit[0].blue.bold;
@@ -149,12 +151,7 @@ Accessibility.prototype.logger = function(msgSplit) {
   _that.grunt.log.oklns('--------------------'.grey);
   _that.grunt.log.oklns(msgSplit[3].grey);
 
-
-  if (msgSplit[0] === 'ERROR' && !options.force) {
-    // _that.grunt.fail.warn('Task ' + _that.grunt.task.current.nameArgs +  ' failed');
-  }
-
-  // console.log(msgSplit);
+  return;
 
 };
 
@@ -227,6 +224,10 @@ Accessibility.prototype.writeFile = function(msg, trace) {
   // Reset the values for next run
   _that.log = '';
   _that.logJSON = {};
+
+  if (_that.failTask && !options.force) {
+    _that.grunt.fail.warn('Task ' + _that.grunt.task.current.nameArgs +  ' failed');
+  }
 
   _that.phantom.halt();
 
