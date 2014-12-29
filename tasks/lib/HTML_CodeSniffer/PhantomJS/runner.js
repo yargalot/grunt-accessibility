@@ -6,28 +6,37 @@ var HTMLCS_RUNNER = new function() {
         HTMLCS.process(standard, document, function() {
             var messages = HTMLCS.getMessages();
             var length   = messages.length;
-            var documentString = document.documentElement.outerHTML;
 
+
+            var node = document.doctype;
+            var html =
+              "<!DOCTYPE " +
+              node.name +
+              (node.publicId ? ' PUBLIC "' + node.publicId + '"' : '') +
+              (!node.publicId && node.systemId ? ' SYSTEM' : '') +
+              (node.systemId ? ' "' + node.systemId + '"' : '') +
+              '> \n' +
+              document.getElementsByTagName('html')[0].outerHTML;
+
+            console.log(html);
 
             var charIndexToLocation = function(html, index) {
               var substr = html.substr(0, index),
               lastLineBreak = substr.lastIndexOf('\n') || '',
-              lineNumber = (substr.match(/\n/g)||[]).length + 1,
+              lineNumber = (substr.match(/\n/g)||[]).length + 2, //HTML inner html hack
               columnNumber = index - lastLineBreak;
 
               return {
-                linenumber: lineNumber,
+                lineNumber: lineNumber,
                 columnNumber: columnNumber
               };
             };
 
-            console.log(documentString);
-
             for (var i = 0; i < length; i++) {
 
                 var htmlString = messages[i].element.outerHTML;
-                var elementIndex = documentString.indexOf(htmlString);
-                var position = charIndexToLocation(documentString, elementIndex);
+                var elementIndex = html.indexOf(htmlString);
+                var position = charIndexToLocation(html, elementIndex);
 
                 // Print out actual element to string
                 messages[i].elementString = htmlString;

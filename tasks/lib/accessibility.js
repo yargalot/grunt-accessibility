@@ -144,9 +144,9 @@ Accessibility.prototype.logger = function(msgSplit) {
   heading += ' ' + msgSplit[1];
 
   _that.grunt.log.subhead(heading);
+  _that.grunt.log.oklns('Line '.cyan + msgSplit[6].cyan + ' col '.cyan  + msgSplit[7].cyan);
   _that.grunt.log.oklns(msgSplit[2].grey);
   _that.grunt.log.oklns('--------------------'.grey);
-  _that.grunt.log.oklns(msgSplit[6]);
   _that.grunt.log.oklns(msgSplit[3].grey);
 
 
@@ -301,7 +301,11 @@ Accessibility.prototype.run = function(done) {
       });
 
     })
-    .catch(function(err){ this.grunt.log.error(err); });
+    .catch(function(err) {
+
+      this.grunt.log.error(err);
+
+    });
 
 };
 
