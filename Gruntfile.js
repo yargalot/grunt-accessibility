@@ -133,6 +133,7 @@ module.exports = function(grunt) {
         options: {
           accessibilityLevel: 'WCAG2A',
           domElement: false,
+          outputFormat: 'txt',
           force: true,
           ignore : [
             'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
