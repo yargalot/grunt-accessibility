@@ -144,7 +144,8 @@ module.exports = function(grunt) {
       },
       noOutput: {
         options: {
-          accessibilityLevel: 'WCAG2A'
+          accessibilityLevel: 'WCAG2A',
+          accessibilityrc: true
         },
         src: ['example/test.html']
       }

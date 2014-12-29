@@ -26,7 +26,12 @@ function Accessibility(task) {
   this.log      = '';
   this.logJSON  = {};
 
+  if (this.options.accessibilityrc) {
+    this.options.ignore = this.grunt.file.readJSON('.accessibilityrc').ignore;
+  }
+
   _that = this;
+
 
 }
 
@@ -38,7 +43,9 @@ Accessibility.Defaults         = {
   domElement: true,
   verbose: true,
   outputFormat: false,
-  force: false
+  force: false,
+  ignore: [],
+  accessibilityrc: false
 };
 
 
