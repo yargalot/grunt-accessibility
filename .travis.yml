@@ -11,5 +11,4 @@ deploy:
   on:
     tags: true
     repo: yargalot/grunt-accessibility
-    all_branches: true
     branch: master
