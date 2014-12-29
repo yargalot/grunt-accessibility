@@ -28,10 +28,14 @@ exports.init_gruntplugin_sample = {
     done();
   },
   default_options: function(test) {
+
+    var actual;
+    var expected;
+
     test.expect(5);
 
-    var actual = grunt.file.read('reports/test-report');
-    var expected = grunt.file.read('test/expected/test-report');
+    actual = grunt.file.read('reports/test-report');
+    expected = grunt.file.read('test/expected/test-report');
     test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
 
     actual = grunt.file.read('reports/test-report-dom');
