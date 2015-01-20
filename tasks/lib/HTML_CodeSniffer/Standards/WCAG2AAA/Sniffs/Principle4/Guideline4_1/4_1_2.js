@@ -1,4 +1,15 @@
-
+/**
+ * +--------------------------------------------------------------------+
+ * | This HTML_CodeSniffer file is Copyright (c)                        |
+ * | Squiz Pty Ltd (ABN 77 084 670 600)                                 |
+ * +--------------------------------------------------------------------+
+ * | IMPORTANT: Your use of this Software is subject to the terms of    |
+ * | the Licence provided in the file licence.txt. If you cannot find   |
+ * | this file please contact Squiz (www.squiz.com.au) so we may        |
+ * | provide you a copy.                                                |
+ * +--------------------------------------------------------------------+
+ *
+ */
 
 var HTMLCS_WCAG2AAA_Sniffs_Principle4_Guideline4_1_4_1_2 = {
     /**
@@ -24,9 +35,13 @@ var HTMLCS_WCAG2AAA_Sniffs_Principle4_Guideline4_1_4_1_2 = {
     process: function(element, top)
     {
         if (element === top) {
-            var errors = this.processFormControls(top);
-            for (var i = 0; i < errors.length; i++) {
-                HTMLCS.addMessage(HTMLCS.ERROR, errors[i].element, errors[i].msg, 'H91.' + errors[i].subcode);
+            var messages = this.processFormControls(top);
+            for (var i = 0; i < messages.errors.length; i++) {
+                HTMLCS.addMessage(HTMLCS.ERROR, messages.errors[i].element, messages.errors[i].msg, 'H91.' + messages.errors[i].subcode);
+            }
+
+            for (var i = 0; i < messages.warnings.length; i++) {
+                HTMLCS.addMessage(HTMLCS.WARNING, messages.warnings[i].element, messages.warnings[i].msg, 'H91.' + messages.warnings[i].subcode);
             }
 
             this.addProcessLinksMessages(top);
@@ -120,8 +135,8 @@ var HTMLCS_WCAG2AAA_Sniffs_Principle4_Guideline4_1_4_1_2 = {
                     }
                 }//end if
             } else {
-                if (/^\s*$/.test(content) === true) {
-                    // Href provided, but no content.
+                if (nameFound === false) {
+                    // Href provided, but no content or title.
                     // We only fire this message when there are no images in the content.
                     // A link around an image with no alt text is already covered in SC
                     // 1.1.1 (test H30).
@@ -139,6 +154,7 @@ var HTMLCS_WCAG2AAA_Sniffs_Principle4_Guideline4_1_4_1_2 = {
     {
         var elements = top.querySelectorAll('button, fieldset, input, select, textarea');
         var errors   = [];
+        var warnings = [];
 
         var requiredNames = {
             button: ['@title', '_content'],
@@ -193,29 +209,13 @@ var HTMLCS_WCAG2AAA_Sniffs_Principle4_Guideline4_1_4_1_2 = {
                             break;
                         }
                     } else if (requiredName === 'label') {
-                        // Label element.
-                        if ((element.hasAttribute('id')) && (/^\s*$/.test(element.getAttribute('id')) === false)) {
-                            if (/^\-?[A-Za-z][A-Za-z0-9\-_]*$/.test(element.getAttribute('id')) === true) {
-                                var label = top.querySelector('label[for=' + element.getAttribute('id') + ']');
-                                if (label !== null) {
-                                    break;
-                                }
-                            } else {
-                                // Characters not suitable for querySelector. Use slower method.
-                                var labels = top.getElementsByTagName('label');
-                                var found  = false;
-                                for (var x = 0; x < labels.length; x++) {
-                                    if ((labels[x].hasAttribute('for') === true) && (labels[x].getAttribute('for') === element.getAttribute('id'))) {
-                                        found = true;
-                                        break;
-                                    }
-                                }//end for
-
-                                if (found === true) {
-                                    break;
-                                }
-                            }//end if
-                        }//end if
+                        // Label element. Re-use the label associating
+                        // functions in SC 1.3.1.
+                        var hasLabel = HTMLCS_WCAG2AAA_Sniffs_Principle1_Guideline1_3_1_3_1.testLabelsOnInputs(element, top, true);
+                        if (hasLabel !== false) {
+                            found = true;
+                            break;
+                        }
                     } else if (requiredName.charAt(0) === '@') {
                         // Attribute.
                         requiredName = requiredName.substr(1, requiredName.length);
@@ -273,7 +273,7 @@ var HTMLCS_WCAG2AAA_Sniffs_Principle4_Guideline4_1_4_1_2 = {
                     valueFound = true;
                 }
             } else if (requiredValue === 'option_selected') {
-                // Select lists need a selected Option element.
+                // Select lists are recommended to have a selected Option element.
                 if (element.hasAttribute('multiple') === false) {
                     var selected = element.querySelector('option[selected]');
                     if (selected !== null) {
@@ -298,26 +298,45 @@ var HTMLCS_WCAG2AAA_Sniffs_Principle4_Guideline4_1_4_1_2 = {
                     msgNodeType = nodeName.substr(6) + ' input element';
                 }
 
+                var msg = 'This ' + msgNodeType + ' does not have a value available to an accessibility API.';
+                
                 var builtAttr = '';
+                var warning   = false;
                 if (requiredValue === '_content') {
-                    builtAttr = 'by adding content to the element';
+                    builtAttr = ' Add one by adding content to the element.';
                 } else if (requiredValue === 'option_selected') {
-                    builtAttr = 'by adding a "selected" attribute to one of its options';
+                    // Change the message instead. The value is only undefined in HTML 4/XHTML 1;
+                    // in HTML5 the first option in a single select dropdown is automatically selected.
+                    // Because of this, it should also be sent out as a warning, not an error.
+                    warning = true;
+                    msg = 'This ' + msgNodeType + ' does not have an initially selected option.' + ' ' +
+                        'Depending on your HTML version, the value exposed to an accessibility API may be undefined.';
                 } else if (requiredValue.charAt(0) === '@') {
-                    builtAttr = 'using the ' + requiredValue + ' attribute';
+                    builtAttr = ' A value is exposed using the "' + requiredValue + '" attribute.';
                 } else {
-                    builtAttr = 'using the ' + requiredValue + ' element';
+                    builtAttr = ' A value is exposed using the "' + requiredValue + '" element.';
                 }
 
-                var msg = 'This ' + msgNodeType + ' does not have a value available to an accessibility API. Add one ' + builtAttr + '.';
-                errors.push({
-                    element: element,
-                    msg: msg,
-                    subcode: (msgSubCode + '.Value')
-                });
+                msg += builtAttr;
+                if (warning === false) {
+                    errors.push({
+                        element: element,
+                        msg: msg,
+                        subcode: (msgSubCode + '.Value')
+                    });
+                } else {
+                    warnings.push({
+                        element: element,
+                        msg: msg,
+                        subcode: (msgSubCode + '.Value')
+                    });
+                }
             }//end if
         }//end for
 
-        return errors;
+        return {
+            errors: errors,
+            warnings: warnings
+        };
     }
 };

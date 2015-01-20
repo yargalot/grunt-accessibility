@@ -1,5 +1,18 @@
-var HTMLCS = new function() {
+/**
+ * +--------------------------------------------------------------------+
+ * | This HTML_CodeSniffer file is Copyright (c)                        |
+ * | Squiz Pty Ltd (ABN 77 084 670 600)                                 |
+ * +--------------------------------------------------------------------+
+ * | IMPORTANT: Your use of this Software is subject to the terms of    |
+ * | the Licence provided in the file licence.txt. If you cannot find   |
+ * | this file please contact Squiz (www.squiz.com.au) so we may        |
+ * | provide you a copy.                                                |
+ * +--------------------------------------------------------------------+
+ *
+ */
 
+var HTMLCS = new function()
+{
     var _standards    = {};
     var _sniffs       = [];
     var _tags         = {};
@@ -23,7 +36,7 @@ var HTMLCS = new function() {
      * @param {String|Node} An HTML string or a DOM node object.
      * @param {Function}    The function that will be called when the testing is completed.
      */
-    this.process = function(standard, content, callback) {
+    this.process = function(standard, content, callback, failCallback) {
         // Clear previous runs.
         _standards    = {};
         _sniffs       = [];
@@ -39,7 +52,7 @@ var HTMLCS = new function() {
         } else {
             this.loadStandard(standard, function() {
                 HTMLCS.run(callback, content);
-            });
+            }, failCallback);
         }
     };
 
@@ -49,7 +62,7 @@ var HTMLCS = new function() {
      * @param {String}   standard The name of the standard to load.
      * @param {Function} callback The function to call once the standard is loaded.
      */
-    this.loadStandard = function(standard, callback) {
+    this.loadStandard = function(standard, callback, failCallback) {
         if (!standard) {
             return false;
         }
@@ -57,7 +70,7 @@ var HTMLCS = new function() {
         _includeStandard(standard, function() {
             _standard = standard;
             callback.call(this);
-        });
+        }, failCallback);
     };
 
     /**
@@ -97,7 +110,7 @@ var HTMLCS = new function() {
                 var elements = _getAllTags(element);
                 elements.unshift(element);
                 _run(elements, element, callback);
-            };
+            }
 
             // Satisfy IE which doesn't like onload being set dynamically.
             elementFrame.onreadystatechange = function() {
@@ -105,7 +118,7 @@ var HTMLCS = new function() {
                     this.onreadystatechange = null;
                     this.load();
                 }
-            };
+            }
 
             elementFrame.onload = elementFrame.load;
 
@@ -166,7 +179,7 @@ var HTMLCS = new function() {
         }
 
         return fullDoc;
-    };
+    }
 
     /**
      * Adds a message.
@@ -287,7 +300,7 @@ var HTMLCS = new function() {
      * @param {Function} callback The function to call once the standard is included.
      * @param {Object}   options  The options for the standard (e.g. exclude sniffs).
      */
-    var _includeStandard = function(standard, callback, options) {
+    var _includeStandard = function(standard, callback, failCallback, options) {
         if (standard.indexOf('http') !== 0) {
             standard = _getStandardPath(standard);
         }//end id
@@ -297,12 +310,12 @@ var HTMLCS = new function() {
         var ruleSet = window['HTMLCS_' + parts[(parts.length - 2)]];
         if (ruleSet) {
             // Already included.
-            _registerStandard(standard, callback, options);
+            _registerStandard(standard, callback, failCallback, options);
         } else {
             _includeScript(standard, function() {
                 // Script is included now register the standard.
-                _registerStandard(standard, callback, options);
-            });
+                _registerStandard(standard, callback, failCallback, options);
+            }, failCallback);
         }//end if
     };
 
@@ -313,7 +326,7 @@ var HTMLCS = new function() {
      * @param {Function} callback The function to call once the standard is registered.
      * @param {Object}   options  The options for the standard (e.g. exclude sniffs).
      */
-    var _registerStandard = function(standard, callback, options) {
+    var _registerStandard = function(standard, callback, failCallback, options) {
         // Get the object name.
         var parts = standard.split('/');
 
@@ -351,7 +364,7 @@ var HTMLCS = new function() {
 
         // Register the sniffs for this standard.
         var sniffs = ruleSet.sniffs.slice(0, ruleSet.sniffs.length);
-        _registerSniffs(standard, sniffs, callback);
+        _registerSniffs(standard, sniffs, callback, failCallback);
     };
 
     /**
@@ -361,7 +374,7 @@ var HTMLCS = new function() {
      * @param {Array}    sniffs   List of sniffs to register.
      * @param {Function} callback The function to call once the sniffs are registered.
      */
-    var _registerSniffs = function(standard, sniffs, callback) {
+    var _registerSniffs = function(standard, sniffs, callback, failCallback) {
         if (sniffs.length === 0) {
             callback.call(this);
             return;
@@ -370,8 +383,8 @@ var HTMLCS = new function() {
         // Include and register sniffs.
         var sniff = sniffs.shift();
         _loadSniffFile(standard, sniff, function() {
-            _registerSniffs(standard, sniffs, callback);
-        });
+            _registerSniffs(standard, sniffs, callback, failCallback);
+        }, failCallback);
     };
 
     /**
@@ -382,7 +395,7 @@ var HTMLCS = new function() {
      *                                 and object specifying another standard.
      * @param {Function}      callback The function to call once the sniff is included and registered.
      */
-    var _loadSniffFile = function(standard, sniff, callback) {
+    var _loadSniffFile = function(standard, sniff, callback, failCallback) {
         if (typeof sniff === 'string') {
             var sniffObj = _getSniff(standard, sniff);
             var cb       = function() {
@@ -394,7 +407,7 @@ var HTMLCS = new function() {
             if (sniffObj) {
                 cb();
             } else {
-                _includeScript(_getSniffPath(standard, sniff), cb);
+                _includeScript(_getSniffPath(standard, sniff), cb, failCallback);
             }
         } else {
             // Including a whole other standard.
@@ -407,7 +420,7 @@ var HTMLCS = new function() {
                 }
 
                 callback.call(this);
-            }, {
+            }, failCallback, {
                 exclude: sniff.exclude,
                 include: sniff.include
             });
@@ -529,12 +542,20 @@ var HTMLCS = new function() {
      * @param {String}   src      The URL to the JS file.
      * @param {Function} callback The function to call once the script is loaded.
      */
-    var _includeScript = function(src, callback) {
+    var _includeScript = function(src, callback, failCallback) {
         var script    = document.createElement('script');
         script.onload = function() {
             script.onload = null;
             script.onreadystatechange = null;
             callback.call(this);
+        };
+
+        script.onerror = function() {
+            script.onload = null;
+            script.onreadystatechange = null;
+            if (failCallback) {
+                failCallback.call(this);
+            }
         };
 
         script.onreadystatechange = function() {

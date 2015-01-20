@@ -31,10 +31,10 @@ module.exports = function(grunt) {
           mangle: false
         },
         files: {
-          'tasks/lib/HTML_CodeSniffer/dist/HTMLCS.min.js': [
+          'tasks/lib/HTMLCS.min.js': [
             'tasks/lib/HTML_CodeSniffer/Standards/**/*.js',
             'tasks/lib/HTML_CodeSniffer/HTMLCS.js',
-            'tasks/lib/HTML_CodeSniffer/PhantomJS/runner.js'
+            'tasks/lib/runner.js'
           ]
         }
       },

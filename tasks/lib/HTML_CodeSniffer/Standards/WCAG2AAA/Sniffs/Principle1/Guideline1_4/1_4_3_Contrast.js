@@ -1,3 +1,15 @@
+/**
+ * +--------------------------------------------------------------------+
+ * | This HTML_CodeSniffer file is Copyright (c)                        |
+ * | Squiz Australia Pty Ltd ABN 53 131 581 247                         |
+ * +--------------------------------------------------------------------+
+ * | IMPORTANT: Your use of this Software is subject to the terms of    |
+ * | the Licence provided in the file licence.txt. If you cannot find   |
+ * | this file please contact Squiz (www.squiz.com.au) so we may        |
+ * | provide you a copy.                                                |
+ * +--------------------------------------------------------------------+
+ *
+ */
 
 var HTMLCS_WCAG2AAA_Sniffs_Principle1_Guideline1_4_1_4_3_Contrast = {
     testContrastRatio: function (top, minContrast, minLargeContrast)
@@ -35,11 +47,18 @@ var HTMLCS_WCAG2AAA_Sniffs_Principle1_Guideline1_4_1_4_3_Contrast = {
                     var style = HTMLCS.util.style(node);
 
                     if (style) {
-                        var bgColour = style.backgroundColor;
-                        var hasBgImg = false;
-
-                        if (style.backgroundImage !== 'none') {
+                        var bgColour  = style.backgroundColor;
+                        var foreColour = style.color;
+                        var bgElement = node;
+                        var hasBgImg  = false;
+                        var isAbsolute = false;
+                        
+			if (style.backgroundImage !== 'none') {
                             hasBgImg = true;
+                        }
+                        
+                        if (style.position == 'absolute') {
+                            isAbsolute = true;
                         }
 
                         var parent = node.parentNode;
@@ -70,6 +89,9 @@ var HTMLCS_WCAG2AAA_Sniffs_Principle1_Guideline1_4_1_4_3_Contrast = {
                             if (parentStyle.backgroundImage !== 'none') {
                                 hasBgImg = true;
                             }
+                            if (parentStyle.position == 'absolute') {
+                                isAbsolute = true;
+                            }
 
                             parent = parent.parentNode;
                         }//end while
@@ -86,6 +108,15 @@ var HTMLCS_WCAG2AAA_Sniffs_Principle1_Guideline1_4_1_4_3_Contrast = {
                                 hasBgImage: true
                             });
                             continue;
+                        } else if (isAbsolute === true) {
+                            failures.push({
+                                element: node,
+                                colour: foreColour,
+                                bgColour: undefined,
+                                value: undefined,
+                                required: reqRatio,
+                                isAbsolute: true
+                            });
                         } else if ((bgColour === 'transparent') || (bgColour === 'rgba(0, 0, 0, 0)')) {
                             // If the background colour is still transparent, this is probably
                             // a fragment with which we cannot reliably make a statement about

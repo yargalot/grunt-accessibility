@@ -1,0 +1,14 @@
+{
+  "name": "HTML_CodeSniffer",
+  "homepage": "https://github.com/squizlabs/HTML_CodeSniffer",
+  "version": "2.0.3",
+  "_release": "2.0.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.0.3",
+    "commit": "fc393587f917d2f0a6d313db506cec1cfeaab676"
+  },
+  "_source": "https://github.com/squizlabs/HTML_CodeSniffer.git",
+  "_target": "2.0.3",
+  "_originalSource": "https://github.com/squizlabs/HTML_CodeSniffer.git"
+}
