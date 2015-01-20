@@ -194,7 +194,7 @@ module.exports = function(grunt) {
    */
   grunt.registerTask('build', ['uglify']);
   grunt.registerTask('node',  ['nodeunit', 'clean']);
-  grunt.registerTask('test',  ['jshint', 'accessibility', 'nodeunit']);
+  grunt.registerTask('test',  ['jshint', 'uglify:dist', 'accessibility', 'nodeunit']);
 
   grunt.registerTask('dev',   ['uglify:dev', 'watch']);
 
