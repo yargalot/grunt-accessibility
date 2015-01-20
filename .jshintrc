@@ -10,9 +10,11 @@
   "boss": true,
   "eqnull": true,
   "node": true,
+  "browser": true,
   "globals" : {
-    "window" : true,
+    "HTMLCS": true,
     "HTMLCS_RUNNER": true,
+    "window" : true,
     "phantom" : true
   }
 }

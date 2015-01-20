@@ -52,7 +52,7 @@ page.onLoadFinished = function(status) {
 
 page.open(url, function (status) {
 
-    page.injectJs('../tasks/lib/HTML_CodeSniffer/dist/HTMLCS.min.js');
+    page.injectJs('../tasks/lib/HTMLCS.min.js');
 
     // Now Run. Note that page.evaluate() function is sanboxed to
     // the loaded page's context. We can't pass any variable to it.

@@ -11,6 +11,8 @@ module.exports = function(grunt) {
       all: [
         'tasks/*.js',
         'tasks/lib/*.js',
+        '!tasks/lib/HTMLCS.min.js',
+        '!tasks/lib/runner.js',
         '<%= nodeunit.tests %>'
       ],
       options: {
@@ -83,6 +85,7 @@ module.exports = function(grunt) {
      * verbose: produce verbose output
      *
      */
+
     accessibility: {
       // options: {
       //   verbose: false
