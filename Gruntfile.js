@@ -1,5 +1,12 @@
 module.exports = function(grunt) {
+
+  // Time Grunt
+  require('time-grunt')(grunt);
+
   grunt.initConfig({
+
+    // Js Hint
+    // ------------------------
     jshint: {
       all: [
         'tasks/*.js',
@@ -36,19 +43,28 @@ module.exports = function(grunt) {
       }
     },
 
+    // Watch Process
+    // ------------------------
+
     watch: {
       scripts: {
-        files: ['tasks/**/*.js', '<%= nodeunit.tests %>'],
+        files: ['tasks/**/*.js', '!tasks/lib/HTML_Codesniffer/**/*.js', '<%= nodeunit.tests %>'],
         tasks: ['jshint', 'uglify:dev', 'accessibility:noOutput'],
         options: {
           spawn: false
         }
+      },
+      minify: {
+        files: ['tasks/lib/HTML_Codesniffer/**/*.js'],
+        tasks: ['uglify:dev']
       },
       grunt: {
         files: ['Gruntfile.js']
       }
     },
 
+    // Grunt debug
+    // ------------------------
     debug: {
       options: {
         open: true // do not open node-inspector in Chrome automatically
@@ -176,6 +192,8 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['uglify']);
   grunt.registerTask('node',  ['nodeunit', 'clean']);
   grunt.registerTask('test',  ['jshint', 'accessibility', 'nodeunit']);
+
+  grunt.registerTask('dev',   ['uglify:dev', 'watch']);
 
   // By default, lint and run all tests.
   return grunt.registerTask('default', ['test', 'build']);
