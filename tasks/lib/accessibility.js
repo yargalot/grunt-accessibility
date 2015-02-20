@@ -293,10 +293,12 @@ Accessibility.prototype.run = function(done) {
     .bind(this)
     .map(function(fileMap) {
 
+
       var srcFile  = fileMap.src[0];
       var destFile = fileMap.dest;
 
       this.options.filedest = destFile;
+      this.grunt.log.subhead('Testing '.cyan + srcFile.cyan);
 
       var deferred = Promise.pending();
 

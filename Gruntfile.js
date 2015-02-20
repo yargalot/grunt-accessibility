@@ -99,11 +99,11 @@ module.exports = function(grunt) {
         options: {
           accessibilityLevel: 'WCAG2A',
           outputFormat: 'txt',
-          force: true
+          force: true,
+          verbose: false
         },
         files: [{
             expand: true,
-            force: true,
             cwd: 'example/',
             src: ['*.html'],
             dest: 'reports/',
