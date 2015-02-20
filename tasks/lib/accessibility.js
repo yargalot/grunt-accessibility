@@ -224,7 +224,7 @@ Accessibility.prototype.writeFile = function(msg, trace) {
     break;
 
     case 'txt':
-      grunt.file.write(options.filedest , _that.log);
+      grunt.file.write(options.filedest + '.txt' , _that.log);
       logFinishedMesage();
     break;
   }

@@ -22,23 +22,23 @@ var grunt = require('grunt');
     test.ifError(value)
 */
 
-exports.init_gruntplugin_sample = {
+exports.accessibilityTests = {
   setUp: function(done) {
     // setup here if necessary
     done();
   },
-  default_options: function(test) {
+  matchReports: function(test) {
 
     var actual;
     var expected;
 
     test.expect(5);
 
-    actual = grunt.file.read('reports/test-report');
+    actual = grunt.file.read('reports/test-report.txt');
     expected = grunt.file.read('test/expected/test-report');
     test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
 
-    actual = grunt.file.read('reports/test-report-dom');
+    actual = grunt.file.read('reports/test-report-dom.txt');
     expected = grunt.file.read('test/expected/test-report-dom');
     test.equal(actual, expected, 'Should produce a default report with DOM element for a test file');
 
