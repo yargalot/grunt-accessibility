@@ -2,10 +2,13 @@ module.exports = function(grunt) {
 
   // Time Grunt
   require('time-grunt')(grunt);
+
+  // Load Development scripts
   require('load-grunt-tasks')(grunt, {
     scope: 'devDependencies'
   });
 
+  // Load Grunt Accessibility
   grunt.loadTasks('tasks');
 
 
@@ -93,8 +96,6 @@ module.exports = function(grunt) {
      */
 
     accessibility: {
-
-
       txt: {
         options: {
           accessibilityLevel: 'WCAG2A',
@@ -164,7 +165,7 @@ module.exports = function(grunt) {
           ]
         },
         files: {
-          'reports/test-report-ignore.txt' : 'example/test.html',
+          'reports/test-report-ignore' : 'example/test.html',
         }
 
       },

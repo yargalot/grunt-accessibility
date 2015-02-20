@@ -9,6 +9,7 @@
 var path      = require('path');
 var fs        = require('fs');
 var _         = require('underscore');
+var chalk     = require('chalk');
 var Promise   = require('bluebird');
 var asset     = path.join.bind(null, __dirname, '..');
 
@@ -278,8 +279,6 @@ Accessibility.prototype.run = function(done) {
   var files   = Promise.resolve(this.task.files);
   var phantom = this.phantom;
 
-  this.grunt.log.writeln('Running accessibility tests'.cyan);
-
   // Built-in error handlers.
   phantom.on('fail.load',     this.failLoad);
   phantom.on('fail.timeout',  this.failTime);
@@ -298,14 +297,13 @@ Accessibility.prototype.run = function(done) {
       var destFile = fileMap.dest;
 
       this.options.filedest = destFile;
-      this.grunt.log.subhead('Testing '.cyan + srcFile.cyan);
+      this.grunt.log.writeln(chalk.bgBlack.white('Testing ' + srcFile));
 
       var deferred = Promise.pending();
 
       phantom.spawn(srcFile, {
         options: this.options,
         done: function (err) {
-
           deferred.fulfill();
         }
       });

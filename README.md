@@ -1,4 +1,4 @@
-# Grunt Accessibility v2.0.0
+# Grunt Accessibility v2.1.0
 
 Grade your sites accessibility using different levels of the WCAG guidelines
 

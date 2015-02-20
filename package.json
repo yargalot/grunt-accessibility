@@ -45,9 +45,10 @@
     "test": "test"
   },
   "dependencies": {
+    "bluebird": "~2.2.2",
+    "chalk": "^0.5.1",
     "grunt": "~0.4.5",
     "grunt-lib-phantomjs": "~0.6.0",
-    "underscore": "~1.6.0",
-    "bluebird": "~2.2.2"
+    "underscore": "~1.6.0"
   }
 }
