@@ -35,11 +35,11 @@ exports.accessibilityTests = {
     test.expect(5);
 
     actual = grunt.file.read('reports/test-report.txt');
-    expected = grunt.file.read('test/expected/test-report');
+    expected = grunt.file.read('test/expected/test-report.txt');
     test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
 
     actual = grunt.file.read('reports/test-report-dom.txt');
-    expected = grunt.file.read('test/expected/test-report-dom');
+    expected = grunt.file.read('test/expected/test-report-dom.txt');
     test.equal(actual, expected, 'Should produce a default report with DOM element for a test file');
 
     actual = grunt.file.read('reports/test-report.json');
