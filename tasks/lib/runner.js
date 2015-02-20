@@ -7,7 +7,6 @@ var HTMLCS_RUNNER = new function() {
             var messages = HTMLCS.getMessages();
             var length   = messages.length;
 
-
             var node = document.doctype;
             var html =
               "<!DOCTYPE " +

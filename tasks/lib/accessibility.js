@@ -289,31 +289,36 @@ Accessibility.prototype.run = function(done) {
   phantom.on('console',       this.terminalLog);
   phantom.on('wcaglint.done', this.writeFile);
 
-
   return files
     .bind(this)
     .map(function(fileMap) {
+
       var srcFile  = fileMap.src[0];
       var destFile = fileMap.dest;
 
       this.options.filedest = destFile;
 
-      return phantom.spawn(srcFile, {
-        // Additional PhantomJS options.
+      var deferred = Promise.pending();
+
+      phantom.spawn(srcFile, {
         options: this.options,
-        // Complete the task when done.
         done: function (err) {
-          done();
-          return (err || true);
+
+          deferred.fulfill();
         }
       });
 
+      return deferred.promise;
+
+    }, {
+      concurrency: 1
     })
     .catch(function(err) {
 
       this.grunt.log.error(err);
 
-    });
+    })
+    .finally(done);
 
 };
 

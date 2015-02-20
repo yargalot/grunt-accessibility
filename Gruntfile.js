@@ -2,6 +2,12 @@ module.exports = function(grunt) {
 
   // Time Grunt
   require('time-grunt')(grunt);
+  require('load-grunt-tasks')(grunt, {
+    scope: 'devDependencies'
+  });
+
+  grunt.loadTasks('tasks');
+
 
   grunt.initConfig({
 
@@ -87,20 +93,19 @@ module.exports = function(grunt) {
      */
 
     accessibility: {
-      // options: {
-      //   verbose: false
-      // },
+
+
       txt: {
         options: {
           accessibilityLevel: 'WCAG2A',
           outputFormat: 'txt',
-           force: true
+          force: true
         },
         files: [{
             expand: true,
             force: true,
             cwd: 'example/',
-            src: ['test.html'],
+            src: ['*.html'],
             dest: 'reports/',
             ext: '-report'
         }]
@@ -181,14 +186,6 @@ module.exports = function(grunt) {
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
 
-  // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-debug-task');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
-
   /* Whenever the "test" task is run, first clean the "tmp" dir, then run this
    * plugin's task(s), then test the result.
    */
@@ -199,5 +196,5 @@ module.exports = function(grunt) {
   grunt.registerTask('dev',   ['uglify:dev', 'watch']);
 
   // By default, lint and run all tests.
-  return grunt.registerTask('default', ['test', 'build']);
+  grunt.registerTask('default', ['test', 'build']);
 };
