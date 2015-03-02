@@ -106,7 +106,7 @@ module.exports = function(grunt) {
         files: [{
             expand: true,
             cwd: 'example/',
-            src: ['*.html'],
+            src: ['**/*.html'],
             dest: 'reports/',
             ext: '-report'
         }]
@@ -120,7 +120,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'example/',
-          src: ['test.html'],
+          src: ['*.html'],
           dest: 'reports/',
           ext: '-report-dom'
         }]
@@ -174,7 +174,7 @@ module.exports = function(grunt) {
           accessibilityLevel: 'WCAG2A',
           accessibilityrc: true
         },
-        src: ['example/test.html']
+        src: ['example/**/*.html']
       }
     },
 

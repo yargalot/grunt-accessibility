@@ -274,6 +274,8 @@ Accessibility.prototype.failError = function(message, trace) {
 
 Accessibility.prototype.run = function(done) {
 
+  console.log(this.task);
+
   var files   = Promise.resolve(this.task.files);
   var phantom = this.phantom;
 
@@ -286,32 +288,40 @@ Accessibility.prototype.run = function(done) {
   phantom.on('console',       this.terminalLog);
   phantom.on('wcaglint.done', this.writeFile);
 
+  var promiseMapOptions = {
+    concurrency: 1
+  };
+
   return files
     .bind(this)
     .map(function(fileMap) {
 
-      var srcFile  = fileMap.src[0];
-      var destFile = fileMap.dest;
+      this.options.filedest = fileMap.dest;
 
-      console.log(fileMap.src);
+      var deferredOutside = Promise.pending();
 
-      this.options.filedest = destFile;
-      this.grunt.log.writeln(chalk.bgBlack.white('Testing ' + srcFile));
+      Promise.each(fileMap.src, function(file, index, array) {
 
-      var deferred = Promise.pending();
+        var deferred = Promise.pending();
 
-      phantom.spawn(srcFile, {
-        options: this.options,
-        done: function (err) {
-          deferred.fulfill();
-        }
+        _that.grunt.log.writeln(chalk.bgBlack.white('Testing ' + file));
+
+        phantom.spawn(file, {
+          options: _that.options,
+          done: function (err) {
+            deferred.fulfill();
+          }
+        });
+
+        return deferred.promise;
+
+      }).then(function() {
+        deferredOutside.fulfill();
       });
 
-      return deferred.promise;
+      return deferredOutside.promise;
 
-    }, {
-      concurrency: 1
-    })
+    }, promiseMapOptions)
     .catch(function(err) {
 
       this.grunt.log.error(err);
