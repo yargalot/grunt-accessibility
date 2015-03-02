@@ -26,6 +26,7 @@ function Accessibility(task) {
 
   this.log      = '';
   this.logJSON  = {};
+  this.fileContents = '';
 
   if (this.options.accessibilityrc) {
     this.options.ignore = this.grunt.file.readJSON('.accessibilityrc').ignore;
@@ -122,6 +123,7 @@ Accessibility.prototype.logger = function(msgSplit) {
 
   var options       = _that.options;
   var errorMessage  = _.isArray(msgSplit);
+  var position      = _that.getElementPosition(msgSplit[3].grey);
 
   // If options verbose if false gtfo
   if (!options.verbose) {
@@ -149,15 +151,46 @@ Accessibility.prototype.logger = function(msgSplit) {
     break;
   }
 
+  console.log(position);
+
   heading += ' ' + msgSplit[1];
 
   _that.grunt.log.subhead(heading);
-  _that.grunt.log.oklns('Line '.cyan + msgSplit[6].cyan + ' col '.cyan  + msgSplit[7].cyan);
+  _that.grunt.log.oklns('Line '.cyan + position.lineNumber + ' col '.cyan  + position.columnNumber);
   _that.grunt.log.oklns(msgSplit[2].grey);
   _that.grunt.log.oklns('--------------------'.grey);
   _that.grunt.log.oklns(msgSplit[3].grey);
 
   return;
+
+};
+
+Accessibility.prototype.getElementPosition = function(htmlString) {
+
+  console.log('Get Element');
+  console.log(this.fileContents);
+
+  var lineNumber;
+  var columnNumber;
+  var elementIndex = this.fileContents.indexOf(htmlString);
+
+  var charIndexToLocation = function(html, index) {
+    var substr = html.substr(0, index),
+    lastLineBreak = substr.lastIndexOf('\n') || '',
+    lineNumber = (substr.match(/\n/g)||[]).length,
+    columnNumber = index - lastLineBreak;
+
+    return {
+      lineNumber: lineNumber,
+      columnNumber: columnNumber
+    };
+  };
+
+  var position = charIndexToLocation(this.fileContents, elementIndex);
+
+  console.log(position);
+
+  return position;
 
 };
 
@@ -274,8 +307,6 @@ Accessibility.prototype.failError = function(message, trace) {
 
 Accessibility.prototype.run = function(done) {
 
-  console.log(this.task);
-
   var files   = Promise.resolve(this.task.files);
   var phantom = this.phantom;
 
@@ -305,6 +336,11 @@ Accessibility.prototype.run = function(done) {
         var deferred = Promise.pending();
 
         _that.grunt.log.writeln(chalk.bgBlack.white('Testing ' + file));
+
+        fs.readFile(file, 'utf8', function (err, data) {
+          _that.fileContents = data;
+        });
+
 
         phantom.spawn(file, {
           options: _that.options,
