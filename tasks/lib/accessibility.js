@@ -128,8 +128,6 @@ Accessibility.prototype.logger = function(msgSplit) {
     return;
   }
 
-  // console.log(msgSplit);
-
   // If its not an error message, return out of it
   if (!errorMessage) {
     return;
@@ -210,7 +208,6 @@ Accessibility.prototype.writeFile = function(msg, trace) {
 
   // Write messages to console
   function logFinishedMesage() {
-
     grunt.log.subhead('Report Finished'.cyan);
     grunt.log.writeln('File "' + options.filedest +
       (options.outputFormat ? '.' + options.outputFormat : '') + '" created.');
@@ -260,7 +257,8 @@ Accessibility.prototype.failTime = function() {
 };
 
 Accessibility.prototype.failError = function(message, trace) {
-  _that.grunt.log.writeln('error: ' + message);
+  _that.grunt.log.error(chalk.red('error: ' + message));
+  _that.phantom.halt();
 };
 
 
@@ -282,9 +280,9 @@ Accessibility.prototype.run = function(done) {
   // Built-in error handlers.
   phantom.on('fail.load',     this.failLoad);
   phantom.on('fail.timeout',  this.failTime);
-  phantom.on('error.onError', this.failError);
 
   // The main events
+  phantom.on('error',         this.failError);
   phantom.on('console',       this.terminalLog);
   phantom.on('wcaglint.done', this.writeFile);
 
@@ -292,9 +290,10 @@ Accessibility.prototype.run = function(done) {
     .bind(this)
     .map(function(fileMap) {
 
-
       var srcFile  = fileMap.src[0];
       var destFile = fileMap.dest;
+
+      console.log(fileMap.src);
 
       this.options.filedest = destFile;
       this.grunt.log.writeln(chalk.bgBlack.white('Testing ' + srcFile));

@@ -26,9 +26,6 @@ var page = require('webpage').create();
 
 // Relay console logging messages.
 page.onConsoleMessage = function (message) {
-
-  console.log('test');
-
     if (message === 'done') {
         sendMessage('wcaglint.done', options);
     } else {
@@ -41,7 +38,7 @@ page.onError = function (msg, trace) {
 };
 
 page.onInitialized = function() {
-    //sendMessage('console', 'Page Loading...');
+    sendMessage('console', 'Page Loading...');
 };
 
 page.onLoadFinished = function(status) {
