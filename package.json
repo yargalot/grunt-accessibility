@@ -40,6 +40,10 @@
   },
   "keywords": [
     "gruntplugin"
+    "accessibility",
+    "analysis",
+    "report",
+    "WCAG"
   ],
   "directories": {
     "test": "test"
