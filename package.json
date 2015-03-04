@@ -39,7 +39,7 @@
     "grunt": "~0.4.5"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
     "accessibility",
     "analysis",
     "report",
