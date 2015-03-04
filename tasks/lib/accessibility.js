@@ -163,10 +163,17 @@ Accessibility.prototype.logger = function(msgSplit) {
 
 };
 
+
+
+/**
+* Get Elements Line and Column Number
+*
+*
+*/
+
 Accessibility.prototype.getElementPosition = function(htmlString) {
 
   var position = {};
-
   var htmlArray = this.fileContents.split("\n");
 
   htmlArray.every(function(element, lineNumber) {
