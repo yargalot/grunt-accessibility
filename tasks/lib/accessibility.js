@@ -123,7 +123,6 @@ Accessibility.prototype.logger = function(msgSplit) {
 
   var options       = _that.options;
   var errorMessage  = _.isArray(msgSplit);
-  var position      = _that.getElementPosition(msgSplit[3].grey);
 
   // If options verbose if false gtfo
   if (!options.verbose) {
@@ -137,6 +136,7 @@ Accessibility.prototype.logger = function(msgSplit) {
 
   // Start logger
   var heading;
+  var position = _that.getElementPosition(msgSplit[3]);
 
   switch (msgSplit[0]) {
     case 'ERROR':
@@ -150,8 +150,6 @@ Accessibility.prototype.logger = function(msgSplit) {
         heading = msgSplit[0].yellow.bold;
     break;
   }
-
-  console.log(position);
 
   heading += ' ' + msgSplit[1];
 
@@ -167,28 +165,31 @@ Accessibility.prototype.logger = function(msgSplit) {
 
 Accessibility.prototype.getElementPosition = function(htmlString) {
 
-  console.log('Get Element');
-  console.log(this.fileContents);
+  var position = {};
 
-  var lineNumber;
-  var columnNumber;
-  var elementIndex = this.fileContents.indexOf(htmlString);
+  var htmlArray = this.fileContents.split("\n");
 
-  var charIndexToLocation = function(html, index) {
-    var substr = html.substr(0, index),
-    lastLineBreak = substr.lastIndexOf('\n') || '',
-    lineNumber = (substr.match(/\n/g)||[]).length,
-    columnNumber = index - lastLineBreak;
+  htmlArray.every(function(element, lineNumber) {
+    if ( !element.match(htmlString) ) {
+      return true;
+    }
 
-    return {
-      lineNumber: lineNumber,
-      columnNumber: columnNumber
-    };
-  };
+    var columnNumber = 0;
+    var colIndex = 0;
 
-  var position = charIndexToLocation(this.fileContents, elementIndex);
+    var pattern = /(\s|\t)/g;
 
-  console.log(position);
+    while (element.charAt(colIndex).match(pattern)) {
+      columnNumber++;
+      colIndex++;
+    }
+
+    position.lineNumber = lineNumber;
+    position.columnNumber = columnNumber;
+
+    return false;
+
+  });
 
   return position;
 
@@ -335,10 +336,10 @@ Accessibility.prototype.run = function(done) {
 
         var deferred = Promise.pending();
 
-        _that.grunt.log.writeln(chalk.bgBlack.white('Testing ' + file));
+        _that.grunt.log.subhead(chalk.white.underline('Testing ' + file));
 
         fs.readFile(file, 'utf8', function (err, data) {
-          _that.fileContents = data;
+          _that.fileContents = data.toString();
         });
 
 
