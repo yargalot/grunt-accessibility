@@ -1,6 +1,6 @@
-NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2|Check that the title element describes the document.|<title>Test One</title>||
+NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2|Check that the title element describes the document.|<title>Test Two</title>||
 ERROR|WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2|The html element should have a lang or xml:lang attribute which describes the language of the document.|<html><head>
-    <title>Test One</title>
+    <title>Test Two</title>
   </head>
   <body>
     <h1>Derp</h1>

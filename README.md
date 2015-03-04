@@ -1,4 +1,4 @@
-# Grunt Accessibility v2.1.1
+# Grunt Accessibility v2.2.0
 
 Grade your sites accessibility using different levels of the WCAG guidelines
 
@@ -147,6 +147,11 @@ This is built of [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
+
+### 2.2.0
+- Fix ```SRC``` globbing pattern
+- Fix partial support
+- Columns and line numbers now exist in the library 
 
 ### [2.0.0](https://github.com/yargalot/grunt-accessibility/issues?q=milestone%3A2.0+is%3Aclosed)
 - Add output format to generate reports

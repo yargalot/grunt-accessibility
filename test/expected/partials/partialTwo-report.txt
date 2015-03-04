@@ -1,14 +1,8 @@
-NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2|Check that the title element describes the document.|<title>Test One</title>||
-ERROR|WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2|The html element should have a lang or xml:lang attribute which describes the language of the document.|<html><head>
-    <title>Test One</title>
-  </head>
-  <body>
-    <h1>Derp</h1>
-    <a id="herpDerp" class="test Element" href="test">Test</a>
-    <a href="test">Test</a>
-    <a href="test" class="herp">Test</a>
-  
-
+ERROR|WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl|A title should be provided for the document, using a non-empty title element in the head section.|<head></head>||
+ERROR|WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2|The html element should have a lang or xml:lang attribute which describes the language of the document.|<html><head></head><body><h1>Two</h1>
+<a id="herpDerp" class="test Element" href="test">Test</a>
+<a href="test">Test</a>
+<a href="test" class="herp">Test</a>
 </body></html>||
 NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81|Check that the link text combined with programmatically determined link context identifies the purpose of the link.|<a id="herpDerp" class="test Element" href="test">Test</a>|test Element|herpDerp
 NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81|Check that the link text combined with programmatically determined link context identifies the purpose of the link.|<a href="test">Test</a>||

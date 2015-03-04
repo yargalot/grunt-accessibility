@@ -1,18 +1,15 @@
-NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2|Check that the title element describes the document.|<title>test</title>|||4|5
+NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_2.H25.2|Check that the title element describes the document.|<title>Test One</title>||
 ERROR|WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2|The html element should have a lang or xml:lang attribute which describes the language of the document.|<html><head>
-    <title>test</title>
+    <title>Test One</title>
   </head>
   <body>
     <h1>Derp</h1>
     <a id="herpDerp" class="test Element" href="test">Test</a>
     <a href="test">Test</a>
     <a href="test" class="herp">Test</a>
-
-    <script src="../tasks/lib/HTML_CodeSniffer/dist/HTMLCS.min.js"></script>
-
   
 
-</body></html>|||3|1
-NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81|Check that the link text combined with programmatically determined link context identifies the purpose of the link.|<a id="herpDerp" class="test Element" href="test">Test</a>|test Element|herpDerp|8|5
-NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81|Check that the link text combined with programmatically determined link context identifies the purpose of the link.|<a href="test">Test</a>|||9|5
-NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81|Check that the link text combined with programmatically determined link context identifies the purpose of the link.|<a href="test" class="herp">Test</a>|herp||10|5
+</body></html>||
+NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81|Check that the link text combined with programmatically determined link context identifies the purpose of the link.|<a id="herpDerp" class="test Element" href="test">Test</a>|test Element|herpDerp
+NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81|Check that the link text combined with programmatically determined link context identifies the purpose of the link.|<a href="test">Test</a>||
+NOTICE|WCAG2A.Principle2.Guideline2_4.2_4_4.H77,H78,H79,H80,H81|Check that the link text combined with programmatically determined link context identifies the purpose of the link.|<a href="test" class="herp">Test</a>|herp|
