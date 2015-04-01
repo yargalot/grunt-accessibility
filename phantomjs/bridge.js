@@ -2,8 +2,6 @@
 
 var fs = require('fs');
 
-// The temporary file used for communications.
-var tmpfile = phantom.args[0];
 // The page .html file to load.
 var url = phantom.args[1];
 // Extra, optionally overridable stuff.

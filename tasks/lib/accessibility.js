@@ -6,12 +6,13 @@
  * Licensed under the MIT license.
  */
 
-var path      = require('path');
-var fs        = require('fs');
-var _         = require('underscore');
-var chalk     = require('chalk');
-var Promise   = require('bluebird');
-var asset     = path.join.bind(null, __dirname, '..');
+var fs          = require('fs');
+var path        = require('path');
+var chalk       = require('chalk');
+var Promise     = require('bluebird');
+var _           = require('underscore');
+var accessSniff = require('access-sniff');
+var asset       = path.join.bind(null, __dirname, '..');
 
 var _that;
 
@@ -330,6 +331,10 @@ Accessibility.prototype.run = function(done) {
   var promiseMapOptions = {
     concurrency: 1
   };
+
+  console.log(accessSniff);
+
+  accessSniff.run(this.task.files);
 
   return files
     .bind(this)
