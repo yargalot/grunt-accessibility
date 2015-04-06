@@ -41,10 +41,10 @@ exports.accessibilityTests = {
     actual = grunt.file.read('reports/json/test.json');
     expected = grunt.file.read('test/expected/json/test.json');
     test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
-
-    actual = grunt.file.read('reports/csv/test.csv');
-    expected = grunt.file.read('test/expected/csv/test.csv');
-    test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
+    
+    // actual = grunt.file.read('reports/csv/test.csv');
+    // expected = grunt.file.read('test/expected/csv/test.csv');
+    // test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
 
     test.done();
   }
