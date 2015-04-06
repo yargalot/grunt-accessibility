@@ -20,8 +20,6 @@ module.exports = function(grunt) {
       all: [
         'tasks/*.js',
         'tasks/lib/*.js',
-        '!tasks/lib/HTMLCS.min.js',
-        '!tasks/lib/runner.js',
         '<%= nodeunit.tests %>'
       ],
       options: {
@@ -34,40 +32,16 @@ module.exports = function(grunt) {
       tests: ['reports']
     },
 
-    // Combine js into a dist directory
-    uglify: {
-      dev: {
-        options: {
-          beautify : true,
-          mangle: false
-        },
-        files: {
-          'tasks/lib/HTMLCS.min.js': [
-            'tasks/lib/HTML_CodeSniffer/Standards/**/*.js',
-            'tasks/lib/HTML_CodeSniffer/HTMLCS.js',
-            'tasks/lib/runner.js'
-          ]
-        }
-      },
-      dist: {
-        files: '<%= uglify.dev.files %>'
-      }
-    },
-
     // Watch Process
     // ------------------------
 
     watch: {
       scripts: {
         files: ['tasks/**/*.js', '!tasks/lib/HTML_Codesniffer/**/*.js', '<%= nodeunit.tests %>'],
-        tasks: ['jshint', 'uglify:dev', 'accessibility:noOutput'],
+        tasks: ['jshint', 'accessibility:noOutput'],
         options: {
           spawn: false
         }
-      },
-      minify: {
-        files: ['tasks/lib/HTML_Codesniffer/**/*.js'],
-        tasks: ['uglify:dev']
       },
       grunt: {
         files: ['Gruntfile.js']
@@ -82,19 +56,9 @@ module.exports = function(grunt) {
       }
     },
 
-    /* Configuration to be run (and then tested).
-     *
-     * accessibilityLevel: Levels are 'WCAG2A', 'WCAG2AA', 'WCAG2AAA', 'Section508'
-     * domElement: whether to include DOM element reference data or not
-     *             (tag name, class names & id), default: true
-     *
-     * outputFormat: specify report output format (text, json), default: text
-     * ignore: ignore rules, useful for partials
-     * force: force skip of ERROR messages
-     * verbose: produce verbose output
-     *
-     */
 
+    // Task testing
+    // ------------------------
     accessibility: {
       options: {
         accessibilityLevel: 'WCAG2A',
@@ -155,7 +119,7 @@ module.exports = function(grunt) {
    */
   grunt.registerTask('build', ['uglify']);
   grunt.registerTask('node',  ['nodeunit', 'clean']);
-  grunt.registerTask('test',  ['clean', 'jshint', 'uglify:dist', 'accessibility', 'nodeunit']);
+  grunt.registerTask('test',  ['clean', 'jshint', 'accessibility', 'nodeunit']);
 
   grunt.registerTask('dev',   ['uglify:dev', 'watch']);
 
