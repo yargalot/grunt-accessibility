@@ -32,27 +32,23 @@ exports.accessibilityTests = {
     var actual;
     var expected;
 
-    test.expect(5);
+    test.expect(3);
 
-    actual = grunt.file.read('reports/test-report.txt');
-    expected = grunt.file.read('test/expected/test-report.txt');
+    actual = grunt.file.read('reports/txt/test.txt');
+    expected = grunt.file.read('test/expected/txt/test.txt');
     test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
 
-    actual = grunt.file.read('reports/test-report-dom.txt');
-    expected = grunt.file.read('test/expected/test-report-dom.txt');
-    test.equal(actual, expected, 'Should produce a default report with DOM element for a test file');
+    actual = grunt.file.read('reports/json/test.json');
+    expected = grunt.file.read('test/expected/json/test.json');
+    test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
 
-    actual = grunt.file.read('reports/test-report.json');
-    expected = grunt.file.read('test/expected/test-report.json');
-    test.equal(actual, expected, 'Should produce JSON report without DOM element for a test file');
-
-    actual = grunt.file.read('reports/test-report-dom.json');
-    expected = grunt.file.read('test/expected/test-report-dom.json');
-    test.equal(actual, expected, 'Should produce JSON report with DOM element for a test file');
-
-    actual = grunt.file.read('reports/test-report-ignore.txt');
-    expected = grunt.file.read('test/expected/test-report-ignore.txt');
-    test.equal(actual, expected, 'Should ignore certain rules');
+    actual = grunt.file.read('reports/csv/test.csv');
+    expected = grunt.file.read('test/expected/csv/test.csv');
+    test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
+    //
+    // actual = grunt.file.read('reports/test-report-ignore.txt');
+    // expected = grunt.file.read('test/expected/test-report-ignore.txt');
+    // test.equal(actual, expected, 'Should ignore certain rules');
 
     test.done();
   }

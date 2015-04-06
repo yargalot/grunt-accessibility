@@ -96,82 +96,47 @@ module.exports = function(grunt) {
      */
 
     accessibility: {
+      options: {
+        accessibilityLevel: 'WCAG2A',
+        verbose: true
+      },
       txt: {
         options: {
-          accessibilityLevel: 'WCAG2A',
-          outputFormat: 'txt',
-          force: true,
-          verbose: false
-        },
-        files: [{
-            expand: true,
-            cwd: 'example/',
-            src: ['**/*.html'],
-            dest: 'reports/',
-            ext: '-report'
-        }]
-      },
-      txtDom: {
-        options: {
-          accessibilityLevel: 'WCAG2A',
-          outputFormat: 'txt',
-          force: true
+          reportType: 'txt',
+          reportLocation: 'reports/txt',
         },
         files: [{
           expand: true,
           cwd: 'example/',
-          src: ['*.html'],
-          dest: 'reports/',
-          ext: '-report-dom'
+          src: ['**/*.html']
         }]
       },
       json: {
         options: {
-          accessibilityLevel: 'WCAG2A',
-          outputFormat: 'json',
-          domElement: false,
-          force: true
+          reportType: 'json',
+          reportLocation: 'reports/json',
+          domElement: false
         },
         files: [{
           expand: true,
           cwd: 'example/',
-          src: ['test.html'],
-          dest: 'reports/',
-          ext: '-report'
+          src: ['**/*.html']
         }]
       },
-      jsonDom: {
+      csv: {
         options: {
-          accessibilityLevel: 'WCAG2A',
-          outputFormat: 'json',
-          force: true
+          reportType: 'csv',
+          reportLocation: 'reports/csv',
+          domElement: false
         },
         files: [{
           expand: true,
           cwd: 'example/',
-          src: ['test.html'],
-          dest: 'reports/',
-          ext: '-report-dom'
+          src: ['**/*.html']
         }]
-      },
-      ignoreTest: {
-        options: {
-          accessibilityLevel: 'WCAG2A',
-          domElement: false,
-          outputFormat: 'txt',
-          force: true,
-          ignore : [
-            'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
-          ]
-        },
-        files: {
-          'reports/test-report-ignore' : 'example/test.html',
-        }
-
       },
       noOutput: {
         options: {
-          accessibilityLevel: 'WCAG2A',
           accessibilityrc: true
         },
         src: ['example/**/*.html']
