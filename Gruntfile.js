@@ -114,8 +114,7 @@ module.exports = function(grunt) {
       json: {
         options: {
           reportType: 'json',
-          reportLocation: 'reports/json',
-          domElement: false
+          reportLocation: 'reports/json'
         },
         files: [{
           expand: true,
@@ -126,8 +125,7 @@ module.exports = function(grunt) {
       csv: {
         options: {
           reportType: 'csv',
-          reportLocation: 'reports/csv',
-          domElement: false
+          reportLocation: 'reports/csv'
         },
         files: [{
           expand: true,
