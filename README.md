@@ -1,6 +1,6 @@
 # Grunt Accessibility v2.2.0
 
-Grade your sites accessibility using different levels of the WCAG guidelines
+Uses [AccessSniff](https://github.com/yargalot/AccessSniff) and [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer) to grade your sites accessibility using different levels of the WCAG guidelines
 
 [![NPM version](https://badge.fury.io/js/grunt-accessibility.png)](http://badge.fury.io/js/grunt-accessibility) [![Build Status](https://travis-ci.org/yargalot/grunt-accessibility.svg?branch=master)](https://travis-ci.org/yargalot/grunt-accessibility) [![Dependency Status](https://gemnasium.com/yargalot/grunt-accessibility.png)](https://gemnasium.com/yargalot/grunt-accessibility) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
@@ -36,122 +36,21 @@ accessibility: {
 You can link to the files you wish to lint using the grunt api. The result will be the results file.
 
 ## Options
-You can pass some options
+View [AccessSniff](https://github.com/yargalot/AccessSniff) options for all available options.  
 
-### Accessibility Level
-
-```accessibilityLevel``` is a string
-
-```javascript
-  options: {
-    accessibilityLevel: 'WCAG2A'
-  }
-```
-
-Levels are ```WCAG2A```, ```WCAG2AA```, and ```WCAG2AAA```
-
-### Accessibilityrc
-
-```accessibilityrc``` is a boolean
-
-
-```javascript
-options: {
-  accessibilityrc: true
-}
-```
-
-Set to true to access a .accessibilityrc file in your project which should be layed out as:
-
-```javascript
-{
-  "ignore": [
-  "WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl",
-  "WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2"
-  ]
-}
-```
-
-
-### Ignore
-
-```ignore``` is a array
-
-You can ignore rules by placing them in an array outlined below
-
-```javascript
-  ignore : [
-    'WCAG2A.Principle2.Guideline2_4.2_4_2.H25.1.NoTitleEl'
-    'WCAG2A.Principle3.Guideline3_1.3_1_1.H57.2'
-  ]
-```
-
-### Output Format
-
-```outputFormat``` is a string
-
-```javascript
-  options: {
-    outputFormat: 'json'
-  }
-```
-
-Text or JSON format output
-
-- 'txt' will output text files
-- 'json' will output .json files
-
-
-### Verbose output
-
-```verbose``` is a boolean
-
-```javascript
-  options: {
-    verbose: false
-  }
-```
-
-Output messages to console, set to true by default
-
-
-### DomElement
-
-``` domElement ``` is a boolean
-
-```javascript
-  options: {
-    domElement: false
-  }
-```
-
-Include reference (tag name, class names & id) to reported  elements. Optional for both output formats.
-
-### Force
-
-```force``` is a boolean
-
-```javascript
-  options: {
-    force: true
-  }
-```
-
-Continue running grunt in the event of failures
-
-
-## Built from
-This is built of [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer)
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
 
+### 3.0.0
+- Move to using AccessSniff
+
 ### 2.2.0
 - Fix ```SRC``` globbing pattern
 - Fix partial support
-- Columns and line numbers now exist in the library 
+- Columns and line numbers now exist in the library
 
 ### [2.0.0](https://github.com/yargalot/grunt-accessibility/issues?q=milestone%3A2.0+is%3Aclosed)
 - Add output format to generate reports
