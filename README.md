@@ -1,4 +1,4 @@
-# Grunt Accessibility v2.2.0
+# Grunt Accessibility
 
 Uses [AccessSniff](https://github.com/yargalot/AccessSniff) and [HTML Codesniffer](http://github.com/squizlabs/HTML_CodeSniffer) to grade your sites accessibility using different levels of the WCAG guidelines
 
