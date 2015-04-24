@@ -4,7 +4,6 @@
 
 module.exports = function(grunt) {
 
-  var Promise     = require('bluebird');
   var accessSniff = require('access-sniff');
 
   grunt.registerMultiTask('accessibility', 'Use HTML codesniffer to grade accessibility', function() {
@@ -21,7 +20,14 @@ module.exports = function(grunt) {
       accessibilityLevel: 'WCAG2A',
     });
 
-    accessSniff.start(this.filesSrc, options, done);
+    accessSniff.start(this.filesSrc, options, function(messageLog, errors) {
+
+      if (!options.force && errors) {
+        grunt.fail.warn('There were ' + errors + ' errors');
+      }
+
+      done();
+    });
 
   });
 
