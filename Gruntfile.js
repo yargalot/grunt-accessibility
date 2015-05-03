@@ -34,7 +34,6 @@ module.exports = function(grunt) {
 
     // Watch Process
     // ------------------------
-
     watch: {
       scripts: {
         files: ['tasks/**/*.js', '!tasks/lib/HTML_Codesniffer/**/*.js', '<%= nodeunit.tests %>'],
@@ -53,6 +52,21 @@ module.exports = function(grunt) {
     debug: {
       options: {
         open: true // do not open node-inspector in Chrome automatically
+      }
+    },
+
+
+    bump: {
+      options: {
+        files: ['package.json'],
+        commit: true,
+        commitMessage: 'Release v%VERSION%',
+        commitFiles: ['package.json'],
+        createTag: true,
+        tagName: 'v%VERSION%',
+        tagMessage: 'Version %VERSION%',
+        push: true,
+        pushTo: 'origin',
       }
     },
 

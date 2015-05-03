@@ -51,7 +51,7 @@
     "test": "test"
   },
   "dependencies": {
-    "access-sniff": "^1.0.2",
+    "access-sniff": "^1.1.2",
     "bluebird": "~2.2.2",
     "chalk": "^0.5.1",
     "grunt": "~0.4.5",
