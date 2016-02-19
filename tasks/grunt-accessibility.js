@@ -10,24 +10,28 @@ module.exports = function(grunt) {
 
     var done = this.async();
     var options = this.options({
-      ignore: [],
-      verbose: true,
-      force: false,
-      domElement: true,
-      reportType: null,
-      reportLocation : 'reports',
-      accessibilityrc: false,
       accessibilityLevel: 'WCAG2A',
+      accessibilityrc: false,
+      domElement: true,
+      force: false,
+      ignore: [],
+      reportLocation : 'reports',
+      reportType: null,
+      verbose: true
     });
 
-    accessSniff.start(this.filesSrc, options, function(messageLog, errors) {
+    accessSniff
+      .default(this.filesSrc, options)
+      .then(function(report) {
+        accessSniff.report(report, { location: options.reportLocation, reportType: options.reportType });
 
-      if (!options.force && errors) {
-        grunt.fail.warn('There were ' + errors + ' errors');
-      }
+        //if (!options.force && errors) {
+        //  grunt.fail.warn('There were ' + errors + ' errors');
+        //}
 
-      done();
+        done();
     });
+
 
   });
 
