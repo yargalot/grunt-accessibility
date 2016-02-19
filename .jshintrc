@@ -1,20 +1,14 @@
 {
+  "boss": true,
   "curly": true,
   "eqeqeq": true,
+  "eqnull": true,
   "immed": true,
   "latedef": true,
   "newcap": true,
   "noarg": true,
+  "node": true,
   "sub": true,
   "undef": true,
-  "boss": true,
-  "eqnull": true,
-  "node": true,
-  "browser": true,
-  "globals" : {
-    "HTMLCS": true,
-    "HTMLCS_RUNNER": true,
-    "window" : true,
-    "phantom" : true
-  }
+  "unused": true
 }
