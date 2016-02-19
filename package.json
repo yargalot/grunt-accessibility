@@ -1,28 +1,31 @@
 {
   "name": "grunt-accessibility",
-  "description": "Grade your sites accessibility and generate a report from different WCAG levels",
+  "description": "Grade your site's accessibility and generate a report from different WCAG levels",
   "version": "3.5.1",
   "homepage": "https://github.com/yargalot/grunt-accessibility",
   "author": "Steven John Miller (http://www.stevenjohnmiller.com/)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yargalot/grunt-accessibility.git"
+    "url": "git+https://github.com/yargalot/grunt-accessibility.git"
   },
   "bugs": {
     "url": "https://github.com/yargalot/grunt-accessibility/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/yargalot/grunt-accessibility/blob/master/LICENSE"
-    }
-  ],
-  "main": "Gruntfile.js",
+  "license": "MIT",
+  "main": "tasks/grunt-accessibility.js",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">=0.10.0"
   },
   "scripts": {
     "test": "grunt test"
+  },
+  "dependencies": {
+    "access-sniff": "^1.1.2",
+    "bluebird": "~2.2.2",
+    "chalk": "^0.5.1",
+    "grunt": "~0.4.5",
+    "grunt-lib-phantomjs": "~0.6.0",
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "grunt-bump": "^0.3.1",
@@ -47,15 +50,7 @@
     "report",
     "WCAG"
   ],
-  "directories": {
-    "test": "test"
-  },
-  "dependencies": {
-    "access-sniff": "^1.1.2",
-    "bluebird": "~2.2.2",
-    "chalk": "^0.5.1",
-    "grunt": "~0.4.5",
-    "grunt-lib-phantomjs": "~0.6.0",
-    "underscore": "~1.6.0"
-  }
+  "files": [
+    "tasks"
+  ]
 }
