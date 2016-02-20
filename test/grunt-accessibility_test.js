@@ -2,31 +2,17 @@
 
 var grunt = require('grunt');
 
-/*
-  ======== A Handy Little Nodeunit Reference ========
-  https://github.com/caolan/nodeunit
+function readFile(file) {
+  var contents = grunt.file.read(file);
 
-  Test methods:
-    test.expect(numAssertions)
-    test.done()
-  Test assertions:
-    test.ok(value, [message])
-    test.equal(actual, expected, [message])
-    test.notEqual(actual, expected, [message])
-    test.deepEqual(actual, expected, [message])
-    test.notDeepEqual(actual, expected, [message])
-    test.strictEqual(actual, expected, [message])
-    test.notStrictEqual(actual, expected, [message])
-    test.throws(block, [error], [message])
-    test.doesNotThrow(block, [error], [message])
-    test.ifError(value)
-*/
+  if (process.platform === 'win32') {
+    contents = contents.replace(/\r\n/g, '\n');
+  }
+
+  return contents;
+}
 
 exports.accessibilityTests = {
-  setUp: function(done) {
-    // setup here if necessary
-    done();
-  },
   matchReports: function(test) {
 
     var actual;
@@ -34,16 +20,16 @@ exports.accessibilityTests = {
 
     test.expect(2);
 
-    actual = grunt.file.read('reports/txt/test.txt');
-    expected = grunt.file.read('test/expected/txt/test.txt');
+    actual = readFile('reports/txt/test.txt');
+    expected = readFile('test/expected/txt/test.txt');
     test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
 
-    actual = grunt.file.read('reports/json/test.json');
-    expected = grunt.file.read('test/expected/json/test.json');
+    actual = readFile('reports/json/test.json');
+    expected = readFile('test/expected/json/test.json');
     test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
 
-    // actual = grunt.file.read('reports/csv/test.csv');
-    // expected = grunt.file.read('test/expected/csv/test.csv');
+    // actual = readFile('reports/csv/test.csv');
+    // expected = readFile('test/expected/csv/test.csv');
     // test.equal(actual, expected, 'Should produce a default report without DOM element for a test file');
 
     test.done();

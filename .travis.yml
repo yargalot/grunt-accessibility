@@ -1,8 +1,18 @@
+sudo: false
+
 language: node_js
+
 node_js:
-- '0.10'
+  - '5'
+  - '4'
+  - '0.10'
+
 before_script:
-- npm install -g grunt-cli
+  - npm install -g grunt-cli
+
+matrix:
+  fast_finish: true
+
 deploy:
   provider: npm
   email: steven.jmiller@gmail.com

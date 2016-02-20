@@ -18,8 +18,8 @@ module.exports = function(grunt) {
     // ------------------------
     jshint: {
       all: [
-        'tasks/*.js',
-        'tasks/lib/*.js',
+        'Gruntfile.js',
+        'tasks/**/*.js',
         '<%= nodeunit.tests %>'
       ],
       options: {
@@ -126,18 +126,15 @@ module.exports = function(grunt) {
     }
   });
 
-  // Actually load this plugin's task(s).
-  grunt.loadTasks('tasks');
 
   /* Whenever the "test" task is run, first clean the "tmp" dir, then run this
    * plugin's task(s), then test the result.
    */
-  grunt.registerTask('build', ['uglify']);
   grunt.registerTask('node',  ['nodeunit', 'clean']);
   grunt.registerTask('test',  ['clean', 'jshint', 'accessibility', 'nodeunit']);
 
-  grunt.registerTask('dev',   ['uglify:dev', 'watch']);
+  grunt.registerTask('dev',   ['watch']);
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['test', 'build']);
+  grunt.registerTask('default', ['test']);
 };
