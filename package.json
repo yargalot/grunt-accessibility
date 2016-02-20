@@ -17,8 +17,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test",
-    "prepublish": "grunt test"
+    "prepublish": "grunt test",
+    "test": "grunt test"
   },
   "dependencies": {
     "access-sniff": "^2.2.1"

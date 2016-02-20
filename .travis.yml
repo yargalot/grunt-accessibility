@@ -7,8 +7,9 @@ node_js:
   - '4'
   - '0.12'
 
-before_script:
+install:
   - npm install -g grunt-cli
+  - npm install
 
 matrix:
   fast_finish: true
