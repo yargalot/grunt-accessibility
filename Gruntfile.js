@@ -75,7 +75,8 @@ module.exports = function(grunt) {
     // ------------------------
     accessibility: {
       options: {
-        accessibilityLevel: 'WCAG2A'
+        accessibilityLevel: 'WCAG2A',
+        force: true
       },
       txt: {
         options: {
