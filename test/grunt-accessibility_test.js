@@ -18,7 +18,7 @@ exports.accessibilityTests = {
     var actual;
     var expected;
 
-    test.expect(3);
+    test.expect(2);
 
     actual = readFile('reports/txt/report.txt');
     expected = readFile('test/expected/txt/report.txt');
