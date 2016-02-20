@@ -20,7 +20,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "access-sniff": "^1.1.2"
+    "access-sniff": "^2.2.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
