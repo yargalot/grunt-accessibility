@@ -15,7 +15,7 @@ module.exports = function(grunt) {
       domElement: true,
       force: false,
       ignore: [],
-      reportLocation : 'reports',
+      reportLocation : '',
       reportType: null,
       verbose: true
     });

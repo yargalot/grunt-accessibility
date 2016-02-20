@@ -56,25 +56,25 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
-### 3.0.0
+### 4.0.0
+- New version of AccessSniff
+- Lots of cleanup
 
+### 3.0.0
 - Move to using AccessSniff
 
 ### 2.2.0
-
 - Fix `SRC` globbing pattern
 - Fix partial support
 - Columns and line numbers now exist in the library
 
 ### [2.0.0](https://github.com/yargalot/grunt-accessibility/issues?q=milestone%3A2.0+is%3Aclosed)
-
 - Add output format to generate reports
 - Add accessibiltyrc option
 - Add line and column number to issues
 - Lots of other tweaks and fixes
 
 ### [1.1.0](https://github.com/yargalot/grunt-accessibility/issues?milestone=3&page=1&state=closed)
-
 - Add JSON report option
 - Add Dom Element option
 - Add Force option
