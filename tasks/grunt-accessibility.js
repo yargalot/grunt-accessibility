@@ -23,11 +23,18 @@ module.exports = function(grunt) {
     accessSniff
       .default(this.filesSrc, options)
       .then(function(report) {
-        accessSniff.report(report, { location: options.reportLocation, reportType: options.reportType });
+        if (options.reportLocation) {
+          accessSniff.report(report, {
+            location: options.reportLocation,
+            reportType: options.reportType
+          });
+        }
+
+        grunt.log.ok('Testing Complete');
         done();
       })
       .catch(function(error) {
-         grunt.fail.warn(error);
+        grunt.fail.warn(error);
       });
 
   });
