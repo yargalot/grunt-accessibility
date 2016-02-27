@@ -9,16 +9,7 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('accessibility', 'Use HTML codesniffer to grade accessibility', function() {
 
     var done = this.async();
-    var options = this.options({
-      accessibilityLevel: 'WCAG2A',
-      accessibilityrc: false,
-      domElement: true,
-      force: false,
-      ignore: [],
-      reportLocation : '',
-      reportType: null,
-      verbose: true
-    });
+    var options = this.options({});
 
     accessSniff
       .default(this.filesSrc, options)
