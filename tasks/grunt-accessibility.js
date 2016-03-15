@@ -12,7 +12,7 @@ module.exports = function(grunt) {
     var options = this.options({});
 
     accessSniff
-      .default(this.filesSrc, options)
+      .default(options.urls || this.filesSrc, options)
       .then(function(report) {
         if (options.reportLocation) {
           accessSniff.report(report, {
