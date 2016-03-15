@@ -35,6 +35,9 @@ accessibility: {
     accessibilityLevel: 'WCAG2A'
   },
   test: {
+    options: {
+      urls: ['http://localhost']
+    },
     src: ['example/test.html']
   }
 }
