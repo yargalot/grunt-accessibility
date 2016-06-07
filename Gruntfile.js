@@ -47,15 +47,6 @@ module.exports = function(grunt) {
       }
     },
 
-    // Grunt debug
-    // ------------------------
-    debug: {
-      options: {
-        open: true // do not open node-inspector in Chrome automatically
-      }
-    },
-
-
     bump: {
       options: {
         files: ['package.json'],
