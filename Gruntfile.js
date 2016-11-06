@@ -103,9 +103,6 @@ module.exports = function(grunt) {
         }]
       },
       noOutput: {
-        options: {
-          accessibilityrc: true
-        },
         src: ['example/**/*.html']
       }
     },

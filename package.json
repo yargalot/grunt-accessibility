@@ -1,7 +1,7 @@
 {
   "name": "grunt-accessibility",
   "description": "Grade your site's accessibility and generate a report from different WCAG levels",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "homepage": "https://github.com/yargalot/grunt-accessibility",
   "author": "Steven John Miller (http://www.stevenjohnmiller.com/)",
   "repository": {
@@ -14,7 +14,7 @@
   "license": "MIT",
   "main": "tasks/grunt-accessibility.js",
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4.0.0"
   },
   "scripts": {
     "prepublish": "grunt test",

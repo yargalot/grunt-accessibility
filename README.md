@@ -1,7 +1,8 @@
 # Grunt Accessibility
 
 [![NPM version](https://img.shields.io/npm/v/grunt-accessibility.svg)](https://www.npmjs.com/package/grunt-accessibility)
-[![Build Status](https://img.shields.io/travis/yargalot/grunt-accessibility/master.svg?label=Linux%20build)](https://travis-ci.org/yargalot/grunt-accessibility)
+[![Build Status](https://travis-ci.org/yargalot/grunt-accessibility.svg?branch=master)](https://travis-ci.org/yargalot/grunt-accessibility)
+[![Build status](https://ci.appveyor.com/api/projects/status/d22xg9fog68bift2?svg=true)](https://ci.appveyor.com/project/yargalot/grunt-accessibility)
 [![Dependency Status](https://img.shields.io/david/yargalot/grunt-accessibility.svg)](https://david-dm.org/yargalot/grunt-accessibility)
 [![devDependency Status](https://img.shields.io/david/dev/yargalot/grunt-accessibility.svg)](https://david-dm.org/yargalot/grunt-accessibility#info=devDependencies)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.svg)](http://gruntjs.com/)
