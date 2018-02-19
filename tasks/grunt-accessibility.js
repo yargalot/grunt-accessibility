@@ -16,7 +16,7 @@ module.exports = function(grunt) {
       .then(function(report) {
         if (options.reportLocation) {
           accessSniff.report(report, {
-            location: options.reportLocation,
+            reportLocation: options.reportLocation,
             reportType: options.reportType
           });
         }
