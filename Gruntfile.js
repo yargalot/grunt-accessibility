@@ -66,8 +66,7 @@ module.exports = function(grunt) {
     // ------------------------
     accessibility: {
       options: {
-        accessibilityLevel: 'WCAG2A',
-        force: true
+        accessibilityLevel: 'WCAG2A'
       },
       txt: {
         options: {
@@ -104,6 +103,14 @@ module.exports = function(grunt) {
       },
       noOutput: {
         src: ['example/**/*.html']
+      },
+      error: {
+        options: {
+          force: true,
+          reportType: 'json',
+          reportLocation: 'reports/json-error'
+        },
+        src: ['errors/**/*.html']
       }
     },
 

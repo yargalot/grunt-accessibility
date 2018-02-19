@@ -18,7 +18,7 @@ exports.accessibilityTests = {
     var actual;
     var expected;
 
-    test.expect(2);
+    test.expect(3);
 
     actual = readFile('reports/txt/report.txt');
     expected = readFile('test/expected/txt/report.txt');
@@ -27,6 +27,10 @@ exports.accessibilityTests = {
     actual = readFile('reports/json/report.json');
     expected = readFile('test/expected/json/report.json');
     test.equal(actual, expected, 'Should produce a JSON report without DOM element for a test file');
+
+    actual = readFile('reports/json-error/report.json');
+    expected = readFile('test/expected/json-error/report.json');
+    test.equal(actual, expected, 'Should produce a JSON report if an error is detected in a test file');
 
     // This is commented out since travis has some issues with csv or something
     // ----------

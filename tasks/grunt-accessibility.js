@@ -11,21 +11,25 @@ module.exports = function(grunt) {
     var done = this.async();
     var options = this.options({});
 
+    function writeReport(report) {
+      if (options.reportLocation) {
+        accessSniff.report(report, {
+          reportLocation: options.reportLocation,
+          reportType: options.reportType
+        });
+      }
+    }
+
     accessSniff
       .default(options.urls || this.filesSrc, options)
       .then(function(report) {
-        if (options.reportLocation) {
-          accessSniff.report(report, {
-            reportLocation: options.reportLocation,
-            reportType: options.reportType
-          });
-        }
-
+        writeReport(report);
         grunt.log.ok('Testing Complete');
         done();
       })
-      .catch(function(error) {
-        grunt.fail.warn(error);
+      .catch(function(result) {
+        writeReport(result.reportLogs);
+        grunt.fail.warn(result.errorMessage);
       });
 
   });
