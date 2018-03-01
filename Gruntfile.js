@@ -111,6 +111,13 @@ module.exports = function(grunt) {
           reportLocation: 'reports/json-error'
         },
         src: ['errors/**/*.html']
+      },
+      errorContinue: {
+        options: {
+          reportType: 'json',
+          reportLocation: 'reports/json-error'
+        },
+        src: ['errors/**/*.html']
       }
     },
 
@@ -125,7 +132,13 @@ module.exports = function(grunt) {
    * plugin's task(s), then test the result.
    */
   grunt.registerTask('node',  ['nodeunit', 'clean']);
-  grunt.registerTask('test',  ['clean', 'jshint', 'accessibility', 'nodeunit']);
+  grunt.registerTask('self',  ['accessibility:txt', 'accessibility:json',
+    'accessibility:csv', 'accessibility:noOutput', 'accessibility:error',
+    // Let the task fail without failing this whole build.
+    'continue:on', 'accessibility:errorContinue', 'continue:off',
+    // Check that there was a failure caused by grunt.fail.warn.
+    'continue:check-any-warnings']);
+  grunt.registerTask('test',  ['clean', 'jshint', 'self', 'nodeunit']);
 
   grunt.registerTask('dev',   ['watch']);
 
