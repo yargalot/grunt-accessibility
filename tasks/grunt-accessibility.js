@@ -9,7 +9,9 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('accessibility', 'Use HTML codesniffer to grade accessibility', function() {
 
     var done = this.async();
-    var options = this.options({});
+    var options = this.options({
+      force: false
+    });
 
     function writeReport(report) {
       if (options.reportLocation) {
@@ -28,8 +30,9 @@ module.exports = function(grunt) {
         done();
       })
       .catch(function(result) {
+        var warn = options.force ? grunt.log.warn : grunt.fail.warn;
         writeReport(result.reportLogs);
-        grunt.fail.warn(result.errorMessage);
+        warn(result.errorMessage);
       });
 
   });
