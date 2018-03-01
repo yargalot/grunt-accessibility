@@ -33,6 +33,7 @@ module.exports = function(grunt) {
         var warn = options.force ? grunt.log.warn : grunt.fail.warn;
         writeReport(result.reportLogs);
         warn(result.errorMessage);
+        done();
       });
 
   });
