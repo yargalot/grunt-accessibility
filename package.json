@@ -26,6 +26,7 @@
   "devDependencies": {
     "grunt": "^1.0.0",
     "grunt-bump": "^0.8.0",
+    "grunt-continue-ext": "^1.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-nodeunit": "^1.0.0",
